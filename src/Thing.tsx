@@ -2,5 +2,9 @@ import * as React from 'react';
 
 // Delete me
 export const Thing = () => {
-  return <div>the snozzberries taste like snozzberries</div>;
+  return (
+    <div className="bg-teal-700 text-teal-200">
+      the snozzberries taste like snozzberries
+    </div>
+  );
 };

@@ -1,4 +1,4 @@
 import { Thing } from './Thing';
-// import '../src/styles/tailwind.css';
+import '../src/styles/tailwind.css';
 
 export { Thing };
