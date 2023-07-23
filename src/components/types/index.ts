@@ -1,6 +1,6 @@
 import React from 'react';
 import { componentSizes, componentStates } from './constants';
-import { HoverProps } from 'react-aria';
+import { HoverProps, PressProps } from 'react-aria';
 import { ArgumentType } from '../../types';
 
 export type ComponentSize = typeof componentSizes[number];
@@ -25,3 +25,5 @@ export type StateToStyleMap = ComponentAttributeMap<
 
 // Events
 export type HoverEvent = ArgumentType<HoverProps['onHoverStart'], 0>;
+
+export type PressEvent = ArgumentType<PressProps['onPress'], 0>;

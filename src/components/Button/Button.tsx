@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { AriaButtonProps, useButton, useFocusRing, useHover } from 'react-aria';
+import React, { useRef } from 'react';
+import { AriaButtonProps, useButton } from 'react-aria';
 import {
   ButtonSize,
   ButtonSizeToClassNameMap,
@@ -8,6 +8,7 @@ import {
   ButtonStateToStyleMap,
 } from './Button.types';
 import { HoverEvent } from '../types';
+import { useInteractionState } from '../../hooks/useInteractionState';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
@@ -42,7 +43,6 @@ export const Button: React.FC<ButtonProps> = ({
   classNameByState = {},
   styleByState = {},
 
-  onHover,
   onHoverStart,
   onHoverEnd,
 
@@ -52,18 +52,14 @@ export const Button: React.FC<ButtonProps> = ({
 
   const { buttonProps, isPressed } = useButton(props, ref);
 
-  const { isFocusVisible, focusProps } = useFocusRing();
-
-  const { hoverProps, isHovered } = useHover({
-    onHoverStart: e => {
-      if (onHoverStart) {
-        onHoverStart(e);
-      }
-      if (onHover) {
-        onHover(e);
-      }
-    },
-    onHoverEnd: onHoverEnd,
+  const {
+    isFocusVisible,
+    focusProps,
+    hoverProps,
+    isHovered,
+  } = useInteractionState({
+    onHoverStart,
+    onHoverEnd,
   });
 
   const sizeClassName = classNameBySize[size] || '';
@@ -99,6 +95,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...focusProps}
       ref={ref}
     >
+      {/* {isHovered ? 'Hovered' : children} */}
       {children}
     </button>
   );

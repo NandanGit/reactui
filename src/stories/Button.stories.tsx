@@ -3,6 +3,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../components';
 import React, { useState } from 'react';
+import { useInteractionState } from '../hooks/useInteractionState';
 
 
 //👇 This default export determines where your story goes in the story list
@@ -24,29 +25,31 @@ type Story = StoryObj<typeof Button>;
 // Custom Component
 const Btn: typeof Button = ({className,...props}) => {
   return <Button 
-  className={`${className} border-none glass py-2 px-3 rounded-md w-fit hover:cursor-pointer hover:scale-[1.02] outline-none transition-all`} 
+  className={`${className} border-none glass rounded-md w-fit hover:cursor-pointer hover:scale-[1.02] outline-none transition-all`} 
   classNameBySize={{
-    sm: 'text-xs py-1 px-2',
-    md: 'text-md',
-    lg: 'text-lg px-5',
+    sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
+    md: 'text-[1rem] px-3 py-2',
+    lg: 'text-[1.25rem] px-4 py-3',
   }}
   classNameByState={{
-    disabled: 'opacity-50 hover:cursor-not-allowed',
+    disabled: 'opacity-50 hover:cursor-not-allowed hover:scale-100',
     pressed: 'opacity-80 transform scale-[0.98]',
     focused: 'ring-1 ring-offset-gray-100 ring-white ring-opacity-60',
   }}
-
   styleByState={{
     pressed: {
       transform: 'scale(0.98)',
+    },
+    disabled: {
+      cursor: "not-allowed"
     }
   }}
   
   {...props} />
 }
 
-const ButtonsContainer: React.FC<{children: React.ReactNode}> = ({children}) => {
-  return <div className="h-[93vh] w-full flex flex-col justify-center items-center space-y-2">
+const ButtonsContainer: React.FC<{children: React.ReactNode, className?:string, style?: React.CSSProperties,horizontal?:boolean}> = ({children, className="", style={}, horizontal=false}) => {
+  return <div className={`${className} h-[95vh] w-full flex ${horizontal ? "flex-row space-x-2" : "flex-col space-y-2"} justify-center items-center bg-[#1f1f1f]`} style={style}>
     {children}
   </div>
 }
@@ -54,7 +57,7 @@ const ButtonsContainer: React.FC<{children: React.ReactNode}> = ({children}) => 
 // Stories
 export const Sizes: Story = {
   render: () => (
-  <ButtonsContainer>
+  <ButtonsContainer horizontal>
     <Btn size="sm">Small</Btn>
     <Btn size="md">Medium</Btn>
     <Btn size="lg">Large</Btn>
@@ -62,14 +65,14 @@ export const Sizes: Story = {
   ),
 }
 
-export const States: Story = {
+export const InteractionStates: Story = {
   render: () => {
     const [buttonText, setButtonText] = useState<"Hover Over Me" | "Press Me" | "Leave Me">("Hover Over Me")
 
     return <ButtonsContainer>
     <Btn 
     className="w-36" 
-    onHover={()=>{
+    onHoverStart={()=>{
       setButtonText("Press Me")
     }}
     onHoverEnd={()=> setButtonText("Hover Over Me")}
@@ -89,6 +92,11 @@ export const States: Story = {
     }}
     >{buttonText}</Btn>
     <Btn isDisabled>Disabled</Btn>
+    {/* {(()=>{
+      const interactionState = useInteractionState()
+      console.log(interactionState)
+      return <button>Hello</button>
+    })()} */}
   </ButtonsContainer>
   },
 }
