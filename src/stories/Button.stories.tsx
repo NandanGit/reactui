@@ -11,11 +11,8 @@ import { Container } from './Container';
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
-  argTypes: {
-    size: {
-      control: { type: 'radio' },
-      options: ['sm', 'md', 'lg',],
-    },
+  parameters:{
+    layout: 'fullscreen',
   }
 };
 
@@ -26,7 +23,7 @@ type Story = StoryObj<typeof Button>;
 // Custom Component
 const Btn: typeof Button = ({className,...props}) => {
   return <Button 
-  className={`${className} border-none glass rounded-md hover:cursor-pointer hover:scale-[1.02] outline-none transition-all`} 
+  className={`${className} glass rounded-md hover:cursor-pointer hover:scale-[1.02] outline-none transition-all`} 
   classNameBySize={{
     sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
     md: 'text-[1rem] px-3 py-2',
@@ -49,7 +46,7 @@ const Btn: typeof Button = ({className,...props}) => {
 // Stories
 export const Sizes: Story = {
   render: () => (
-  <Container horizontal hideCard>
+  <Container horizontal>
     <Btn size="sm">Small</Btn>
     <Btn size="md">Medium</Btn>
     <Btn size="lg">Large</Btn>
@@ -88,4 +85,3 @@ export const InteractionStates: Story = {
   </Container>
   },
 }
-
