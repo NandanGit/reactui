@@ -2,7 +2,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../components';
-import React from 'react';
+import React, { useState } from 'react';
 
 
 //👇 This default export determines where your story goes in the story list
@@ -63,13 +63,33 @@ export const Sizes: Story = {
 }
 
 export const States: Story = {
-  render: () => (
-  <ButtonsContainer>
-    <Btn>Press Me</Btn>
+  render: () => {
+    const [buttonText, setButtonText] = useState<"Hover Over Me" | "Press Me" | "Leave Me">("Hover Over Me")
+
+    return <ButtonsContainer>
+    <Btn 
+    className="w-36" 
+    onHover={()=>{
+      setButtonText("Press Me")
+    }}
+    onHoverEnd={()=> setButtonText("Hover Over Me")}
+    onPressChange={(isPressed)=> {
+      if (isPressed) {
+        setButtonText("Leave Me")
+      } else {
+        setButtonText("Press Me")
+      }
+    }}
+    onFocusChange={(isFocused)=>{
+      if (isFocused) {
+        setButtonText("Press Me")
+      } else {
+        setButtonText("Hover Over Me")
+      }
+    }}
+    >{buttonText}</Btn>
     <Btn isDisabled>Disabled</Btn>
-    <Btn>Hover over Me</Btn>
-    <Btn>Focus Me</Btn>
   </ButtonsContainer>
-  ),
+  },
 }
 

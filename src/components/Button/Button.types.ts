@@ -12,7 +12,7 @@ export type ButtonSizeToStyleMap = ComponentAttributeMap<
   React.CSSProperties
 >;
 
-export type ButtonState = Exclude<ComponentState, 'hovered'>;
+export type ButtonState = ComponentState;
 
 export type ButtonStateToClassNameMap = ComponentAttributeMap<
   ButtonState,

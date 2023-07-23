@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { AriaButtonProps, useButton, useFocusRing } from 'react-aria';
+import React, { useRef, useState } from 'react';
+import { AriaButtonProps, useButton, useFocusRing, useHover } from 'react-aria';
 import {
   ButtonSize,
   ButtonSizeToClassNameMap,
@@ -7,6 +7,7 @@ import {
   ButtonStateToClassNameMap,
   ButtonStateToStyleMap,
 } from './Button.types';
+import { HoverEvent } from '../types';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
@@ -21,6 +22,11 @@ export interface ButtonProps extends AriaButtonProps {
   // State
   classNameByState?: ButtonStateToClassNameMap;
   styleByState?: ButtonStateToStyleMap;
+
+  // Events
+  onHover?: (e: HoverEvent) => void;
+  onHoverStart?: (e: HoverEvent) => void;
+  onHoverEnd?: (e: HoverEvent) => void;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -36,6 +42,10 @@ export const Button: React.FC<ButtonProps> = ({
   classNameByState = {},
   styleByState = {},
 
+  onHover,
+  onHoverStart,
+  onHoverEnd,
+
   ...props
 }) => {
   const ref = useRef<HTMLButtonElement>(null);
@@ -43,6 +53,18 @@ export const Button: React.FC<ButtonProps> = ({
   const { buttonProps, isPressed } = useButton(props, ref);
 
   const { isFocusVisible, focusProps } = useFocusRing();
+
+  const { hoverProps, isHovered } = useHover({
+    onHoverStart: e => {
+      if (onHoverStart) {
+        onHoverStart(e);
+      }
+      if (onHover) {
+        onHover(e);
+      }
+    },
+    onHoverEnd: onHoverEnd,
+  });
 
   const sizeClassName = classNameBySize[size] || '';
   const sizeStyle = styleBySize[size] || {};
@@ -58,17 +80,22 @@ export const Button: React.FC<ButtonProps> = ({
   const focusedClassName = isFocusVisible ? classNameByState['focused'] : '';
   const focusedStyle = isFocusVisible ? styleByState['focused'] : {};
 
+  const hoveredClassName = isHovered ? classNameByState['hovered'] : '';
+  const hoveredStyle = isHovered ? styleByState['hovered'] : {};
+
   return (
     <button
-      className={`${baseClassName} ${sizeClassName} ${pressedClassName} ${disabledClassName} ${focusedClassName}`}
+      className={`${baseClassName} ${sizeClassName} ${hoveredClassName} ${pressedClassName} ${disabledClassName} ${focusedClassName}`}
       style={{
         ...baseStyle,
         ...sizeStyle,
+        ...hoveredStyle,
         ...pressedStyle,
         ...disabledStyle,
         ...focusedStyle,
       }}
       {...buttonProps}
+      {...hoverProps}
       {...focusProps}
       ref={ref}
     >
