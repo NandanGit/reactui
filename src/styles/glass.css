@@ -9,5 +9,5 @@
 }
 
 .glass.disabled {
-  @apply brightness-75 text-opacity-10 hover:cursor-not-allowed hover:scale-100;
+  @apply brightness-75 text-opacity-10 hover:cursor-not-allowed hover:scale-100 hover:bg-opacity-10;
 }

@@ -1,25 +1,40 @@
 import React from 'react';
-import { componentSizes, componentStates } from './constants';
+import {
+  componentSizes,
+  componentInteractionStates,
+  componentStatuses,
+} from './constants';
 import { HoverProps, PressProps } from 'react-aria';
 import { ArgumentType } from '../../types';
 
-export type ComponentSize = typeof componentSizes[number];
-
-export type ComponentAttributeMap<TSize extends string, TValue> = Partial<
-  { [key in TSize]: TValue }
+export type ComponentAttributeMap<TKey extends string, TValue> = Partial<
+  { [key in TKey]: TValue }
 >;
 
+export type ComponentSize = typeof componentSizes[number];
 export type SizeToClassNameMap = ComponentAttributeMap<ComponentSize, string>;
 export type SizeToStyleMap = ComponentAttributeMap<
   ComponentSize,
   React.CSSProperties
 >;
 
-export type ComponentState = typeof componentStates[number];
-
-export type StateToClassNameMap = ComponentAttributeMap<ComponentState, string>;
+export type InteractionState = typeof componentInteractionStates[number];
+export type StateToClassNameMap = ComponentAttributeMap<
+  InteractionState,
+  string
+>;
 export type StateToStyleMap = ComponentAttributeMap<
-  ComponentState,
+  InteractionState,
+  React.CSSProperties
+>;
+
+export type ComponentStatus = typeof componentStatuses[number];
+export type StatusToClassNameMap = ComponentAttributeMap<
+  ComponentStatus,
+  string
+>;
+export type StatusToStyleMap = ComponentAttributeMap<
+  ComponentStatus,
   React.CSSProperties
 >;
 

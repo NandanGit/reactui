@@ -23,11 +23,23 @@ type Story = StoryObj<typeof Button>;
 // Custom Component
 const Btn: typeof Button = ({className,...props}) => {
   return <Button 
-  className={`${className} glass rounded-md hover:cursor-pointer hover:scale-[1.02] outline-none transition-all`} 
+  className={`${className} glass rounded-md hover:cursor-pointer hover:scale-[1.02] hover:bg-opacity-20 outline-none transition-all`} 
   classNameBySize={{
     sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
     md: 'text-[1rem] px-3 py-2',
     lg: 'text-[1.25rem] px-4 py-3',
+  }}
+  classNameByVariant={{
+    outline: 'bg-opacity-0 shadow-[inset_0_0_0_0.1rem_#fff1] hover:bg-opacity-10 hover:shadow-[inset_0_0_0_0.1rem_#fff0]',
+    ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-opacity-10',
+  }}
+  classNameByStatus={{
+    primary: 'bg-opacity-40 bg-violet-900 text-violet-200 text-opacity-80 hover:bg-opacity-50',
+    success: 'bg-opacity-40 bg-green-800 text-green-200 text-opacity-80 hover:bg-opacity-50',
+    secondary: 'bg-opacity-40 bg-teal-900 text-teal-200 text-opacity-70 hover:bg-opacity-40',
+    warning: 'bg-opacity-40 bg-yellow-800 text-yellow-200 text-opacity-80 hover:bg-opacity-50',
+    danger: 'bg-opacity-40 bg-red-900 text-red-200 text-opacity-70 hover:bg-opacity-40',
+    info: 'bg-opacity-40 bg-sky-900 text-sky-200 text-opacity-70 hover:bg-opacity-40',
   }}
   classNameByState={{
     disabled: 'disabled',
@@ -39,6 +51,11 @@ const Btn: typeof Button = ({className,...props}) => {
       transform: 'scale(0.98)',
     },
   }}
+  styleByVariant={{
+    ghost: {
+      background: 'transparent',
+    }
+  }}
   
   {...props} />
 }
@@ -46,10 +63,38 @@ const Btn: typeof Button = ({className,...props}) => {
 // Stories
 export const Sizes: Story = {
   render: () => (
-  <Container horizontal>
+  <Container >
+    <Btn size="lg" variant='outline'>Large Button</Btn>
+    <Btn size="md" status="warning">Medium</Btn>
     <Btn size="sm">Small</Btn>
-    <Btn size="md">Medium</Btn>
-    <Btn size="lg">Large</Btn>
+  </Container>
+  ),
+}
+
+export const Variants: Story = {
+  render: () => (
+  <Container horizontal>
+    <Btn variant="filled" status='primary'>Filled</Btn>
+    <Btn variant="ghost">Ghost</Btn>
+    <Btn variant="outline">Outlined</Btn>
+  </Container>
+  ),
+}
+
+export const Statuses: Story = {
+  render: () => (
+  <Container>
+    <div className='grid grid-cols-3 gap-2'>
+      <Btn status="success">Success</Btn>
+      <Btn status="secondary">Secondary</Btn>
+      <Btn status="warning" className="row-span-2">Warning</Btn>
+      <Btn className="col-span-2">Default</Btn>
+      <Btn status="danger" variant="outline">Danger</Btn>
+      <Btn status="primary" >Primary</Btn>
+      <Btn status="info">Info</Btn>
+      <Btn status="info" variant="ghost">Info</Btn>
+      <Btn status="info" variant="outline" className="col-span-2 bg-opacity-5 backdrop-blur-0 text-emerald-600 hover:bg-emerald-900">Custom</Btn>
+    </div>
   </Container>
   ),
 }
@@ -58,7 +103,7 @@ export const InteractionStates: Story = {
   render: () => {
     const [buttonText, setButtonText] = useState<"Hover Over Me" | "Press Me" | "Leave Me">("Hover Over Me")
 
-    return <Container>
+    return <Container >
     <Btn 
     className="w-36" 
     onHoverStart={()=>{
@@ -80,8 +125,8 @@ export const InteractionStates: Story = {
       }
     }}
     >{buttonText}</Btn>
-    <Btn isDisabled>Disabled</Btn>
-    <Btn autoFocus>Hello</Btn>
+    <Btn isDisabled status='default' variant="outline">Disabled</Btn>
+    <Btn autoFocus variant="ghost">Auto Focused</Btn>
   </Container>
   },
 }

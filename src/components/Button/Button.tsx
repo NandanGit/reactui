@@ -6,9 +6,17 @@ import {
   ButtonSizeToStyleMap,
   ButtonStateToClassNameMap,
   ButtonStateToStyleMap,
+  ButtonStatus,
+  ButtonStatusToClassNameMap,
+  ButtonStatusToStyleMap,
+  ButtonVariant,
+  ButtonVariantToClassNameMap,
+  ButtonVariantToStyleMap,
 } from './Button.types';
 import { HoverEvent } from '../types';
 import { useInteractionState } from '../../hooks/useInteractionState';
+import { resolveStyles } from '../utils/resolveStyles';
+import { componentInteractionStates } from '../types/constants';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
@@ -20,7 +28,17 @@ export interface ButtonProps extends AriaButtonProps {
   classNameBySize?: ButtonSizeToClassNameMap;
   styleBySize?: ButtonSizeToStyleMap;
 
-  // State
+  // Status
+  status?: ButtonStatus;
+  classNameByStatus?: ButtonStatusToClassNameMap;
+  styleByStatus?: ButtonStatusToStyleMap;
+
+  // Variant
+  variant?: ButtonVariant;
+  classNameByVariant?: ButtonVariantToClassNameMap;
+  styleByVariant?: ButtonVariantToStyleMap;
+
+  // InteractionState
   classNameByState?: ButtonStateToClassNameMap;
   styleByState?: ButtonStateToStyleMap;
 
@@ -33,12 +51,20 @@ export interface ButtonProps extends AriaButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   children,
 
-  size = 'md',
   className: baseClassName = '',
   style: baseStyle = {},
 
+  size = 'md',
   classNameBySize = {},
   styleBySize = {},
+
+  status = 'default',
+  classNameByStatus = {},
+  styleByStatus = {},
+
+  variant = 'filled',
+  classNameByVariant = {},
+  styleByVariant = {},
 
   classNameByState = {},
   styleByState = {},
@@ -65,30 +91,36 @@ export const Button: React.FC<ButtonProps> = ({
   const sizeClassName = classNameBySize[size] || '';
   const sizeStyle = styleBySize[size] || {};
 
-  const pressedClassName = isPressed ? classNameByState['pressed'] : '';
-  const pressedStyle = isPressed ? styleByState['pressed'] : {};
+  const statusClassName = classNameByStatus[status] || '';
+  const statusStyle = styleByStatus[status] || {};
 
-  const disabledClassName = props.isDisabled
-    ? classNameByState['disabled']
-    : '';
-  const disabledStyle = props.isDisabled ? styleByState['disabled'] : {};
+  const variantClassName = classNameByVariant[variant] || '';
+  const variantStyle = styleByVariant[variant] || {};
 
-  const focusedClassName = isFocusVisible ? classNameByState['focused'] : '';
-  const focusedStyle = isFocusVisible ? styleByState['focused'] : {};
-
-  const hoveredClassName = isHovered ? classNameByState['hovered'] : '';
-  const hoveredStyle = isHovered ? styleByState['hovered'] : {};
+  const { disabled, pressed, hovered, focused } = resolveStyles(
+    componentInteractionStates,
+    classNameByState,
+    styleByState,
+    {
+      disabled: props.isDisabled || false,
+      pressed: isPressed,
+      focused: isFocusVisible,
+      hovered: isHovered,
+    }
+  );
 
   return (
     <button
-      className={`${baseClassName} ${sizeClassName} ${hoveredClassName} ${pressedClassName} ${disabledClassName} ${focusedClassName}`}
+      className={`${baseClassName} ${sizeClassName} ${statusClassName} ${variantClassName} ${hovered.className} ${pressed.className} ${disabled.className} ${focused.className}`}
       style={{
         ...baseStyle,
         ...sizeStyle,
-        ...hoveredStyle,
-        ...pressedStyle,
-        ...disabledStyle,
-        ...focusedStyle,
+        ...statusStyle,
+        ...variantStyle,
+        ...hovered.style,
+        ...pressed.style,
+        ...disabled.style,
+        ...focused.style,
       }}
       {...buttonProps}
       {...hoverProps}
