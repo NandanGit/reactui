@@ -3,7 +3,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../components';
 import React, { useState } from 'react';
-import background from "./assets/background.svg"
+import { Container } from './Container';
+
 
 
 //👇 This default export determines where your story goes in the story list
@@ -45,26 +46,14 @@ const Btn: typeof Button = ({className,...props}) => {
   {...props} />
 }
 
-const ButtonsContainer: React.FC<{children: React.ReactNode, className?:string, style?: React.CSSProperties,horizontal?:boolean}> = ({children, className="", style={}, horizontal=false}) => {
-  return <div className={`${className} h-[95vh] w-full flex ${horizontal ? "flex-row space-x-2" : "flex-col space-y-2"} justify-center items-center bg-[url(./assets/background.svg)]`} style={{
-    backgroundImage: `url(${background})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-
-    ...style,
-  }}>
-    {children}
-  </div>
-}
-
 // Stories
 export const Sizes: Story = {
   render: () => (
-  <ButtonsContainer horizontal>
+  <Container horizontal hideCard>
     <Btn size="sm">Small</Btn>
     <Btn size="md">Medium</Btn>
     <Btn size="lg">Large</Btn>
-  </ButtonsContainer>
+  </Container>
   ),
 }
 
@@ -72,7 +61,7 @@ export const InteractionStates: Story = {
   render: () => {
     const [buttonText, setButtonText] = useState<"Hover Over Me" | "Press Me" | "Leave Me">("Hover Over Me")
 
-    return <ButtonsContainer>
+    return <Container>
     <Btn 
     className="w-36" 
     onHoverStart={()=>{
@@ -94,10 +83,9 @@ export const InteractionStates: Story = {
       }
     }}
     >{buttonText}</Btn>
-    <Btn isDisabled className="" style={{
-      // color: "#fff"
-    }}>Disabled</Btn>
-  </ButtonsContainer>
+    <Btn isDisabled>Disabled</Btn>
+    <Btn autoFocus>Hello</Btn>
+  </Container>
   },
 }
 
