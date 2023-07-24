@@ -51,8 +51,8 @@ export interface ButtonProps extends AriaButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   children,
 
-  className: baseClassName = '',
-  style: baseStyle = {},
+  className: userDefinedClassName = '',
+  style: userDefinedStyle = {},
 
   size = 'md',
   classNameBySize = {},
@@ -88,13 +88,16 @@ export const Button: React.FC<ButtonProps> = ({
     onHoverEnd,
   });
 
-  const sizeClassName = classNameBySize[size] || '';
+  const sizeClassName = `rui-size-${size} ${classNameBySize[size] || ''}`;
   const sizeStyle = styleBySize[size] || {};
 
-  const statusClassName = classNameByStatus[status] || '';
+  const statusClassName = `rui-status-${status} ${classNameByStatus[status] ||
+    ''}`;
   const statusStyle = styleByStatus[status] || {};
 
-  const variantClassName = classNameByVariant[variant] || '';
+  const variantClassName = `rui-variant-${variant} ${classNameByVariant[
+    variant
+  ] || ''}`;
   const variantStyle = styleByVariant[variant] || {};
 
   const { disabled, pressed, hovered, focused } = resolveStyles(
@@ -111,9 +114,8 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`${baseClassName} ${sizeClassName} ${statusClassName} ${variantClassName} ${hovered.className} ${pressed.className} ${disabled.className} ${focused.className}`}
+      className={`${userDefinedClassName} ${sizeClassName} ${statusClassName} ${variantClassName} ${hovered.className} ${pressed.className} ${disabled.className} ${focused.className}`}
       style={{
-        ...baseStyle,
         ...sizeStyle,
         ...statusStyle,
         ...variantStyle,
@@ -121,13 +123,14 @@ export const Button: React.FC<ButtonProps> = ({
         ...pressed.style,
         ...disabled.style,
         ...focused.style,
+
+        ...userDefinedStyle,
       }}
       {...buttonProps}
       {...hoverProps}
       {...focusProps}
       ref={ref}
     >
-      {/* {isHovered ? 'Hovered' : children} */}
       {children}
     </button>
   );

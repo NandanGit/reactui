@@ -90,9 +90,9 @@ export const Statuses: Story = {
       <Btn status="warning" className="row-span-2">Warning</Btn>
       <Btn className="col-span-2">Default</Btn>
       <Btn status="danger" variant="outline">Danger</Btn>
+      <Btn status="info" variant="ghost">Info</Btn>
       <Btn status="primary" >Primary</Btn>
       <Btn status="info">Info</Btn>
-      <Btn status="info" variant="ghost">Info</Btn>
       <Btn status="info" variant="outline" className="col-span-2 bg-opacity-5 backdrop-blur-0 text-emerald-600 hover:bg-emerald-900">Custom</Btn>
     </div>
   </Container>
@@ -129,4 +129,12 @@ export const InteractionStates: Story = {
     <Btn autoFocus variant="ghost">Auto Focused</Btn>
   </Container>
   },
+}
+
+export const Foo: Story =  {
+  render: () => (
+    <Container>
+      <Button variant="outline">Hello</Button>
+    </Container>
+  )
 }
