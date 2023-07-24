@@ -31,7 +31,8 @@ const Btn: typeof Button = ({className,...props}) => {
   }}
   classNameByVariant={{
     outline: 'bg-opacity-0 shadow-[inset_0_0_0_0.1rem_#fff1] hover:bg-opacity-10 hover:shadow-[inset_0_0_0_0.1rem_#fff0]',
-    ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-opacity-10',
+    ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent',
+    link: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent hover:underline text-blue-500 hover:scale-105',
   }}
   classNameByStatus={{
     primary: 'bg-opacity-40 bg-violet-900 text-violet-200 text-opacity-80 hover:bg-opacity-50',
@@ -74,9 +75,12 @@ export const Sizes: Story = {
 export const Variants: Story = {
   render: () => (
   <Container horizontal>
-    <Btn variant="filled" status='primary'>Filled</Btn>
-    <Btn variant="ghost">Ghost</Btn>
-    <Btn variant="outline">Outlined</Btn>
+    <div className='grid grid-cols-2 gap-2'>
+      <Btn variant="filled" status='primary'>Filled</Btn>
+      <Btn variant="ghost">Ghost</Btn>
+      <Btn variant="link">Link</Btn>
+      <Btn variant="outline">Outlined</Btn>
+    </div>
   </Container>
   ),
 }

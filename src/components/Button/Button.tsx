@@ -89,28 +89,12 @@ export const Button: React.FC<ButtonProps> = ({
     onHoverEnd,
   });
 
-  const {
-    size: sizeStyles,
-    status: statusStyles,
-    variant: variantStyles,
-  } = resolveRadioStyles<
+  const { sizeStyles, statusStyles, variantStyles } = resolveRadioStyles<
     [['size', ButtonSize], ['status', ButtonStatus], ['variant', ButtonVariant]]
   >({
-    size: {
-      current: size,
-      classNameMap: classNameBySize,
-      styleMap: styleBySize,
-    },
-    status: {
-      current: status,
-      classNameMap: classNameByStatus,
-      styleMap: styleByStatus,
-    },
-    variant: {
-      current: variant,
-      classNameMap: classNameByVariant,
-      styleMap: styleByVariant,
-    },
+    size: [size, classNameBySize, styleBySize],
+    status: [status, classNameByStatus, styleByStatus],
+    variant: [variant, classNameByVariant, styleByVariant],
   });
 
   const { disabled, pressed, hovered, focused } = resolveStyles(

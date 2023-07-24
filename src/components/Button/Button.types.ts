@@ -35,7 +35,7 @@ export type ButtonStatusToStyleMap = ComponentAttributeMap<
   React.CSSProperties
 >;
 
-export type ButtonVariant = 'filled' | 'outline' | 'ghost';
+export type ButtonVariant = 'filled' | 'outline' | 'ghost' | 'link';
 export type ButtonVariantToClassNameMap = ComponentAttributeMap<
   ButtonVariant,
   string

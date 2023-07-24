@@ -1,4 +1,4 @@
-type PartialRecord<TKey extends string, TValue> = Partial<Record<TKey, TValue>>;
+import { ClassNameMap, StyleMap } from '../../types';
 
 /**
  * Resolves styles based on a set of keys, classNameMap, styleMap, and conditionsMap.
@@ -41,8 +41,8 @@ type PartialRecord<TKey extends string, TValue> = Partial<Record<TKey, TValue>>;
  * */
 export const resolveStyles = <Key extends string>(
   keys: readonly Key[],
-  classNameMap: PartialRecord<Key, string>,
-  styleMap: PartialRecord<Key, React.CSSProperties>,
+  classNameMap: ClassNameMap<Key>,
+  styleMap: StyleMap<Key>,
   conditionsMap: Record<Key, boolean>
 ): Record<Key, { className: string; style: React.CSSProperties }> => {
   return keys.reduce((acc, key) => {

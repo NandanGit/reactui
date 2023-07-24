@@ -1,14 +1,13 @@
-type PartialRecord<TKey extends string, TValue> = Partial<Record<TKey, TValue>>;
-type StyleMap<T extends string> = PartialRecord<T, React.CSSProperties>;
-type ClassNameMap<T extends string> = PartialRecord<T, string>;
+import { ClassNameMap, StyleMap } from "../../types";
+
 
 export function resolveRadioStyles<T extends [string, string][]>(
   maps: {
-    [key in T[number][0]]: {
-      current: T[number][1];
-      styleMap: StyleMap<T[number][1]>;
-      classNameMap: ClassNameMap<T[number][1]>;
-    };
+    [key in T[number][0]]: [
+      T[number][1],
+      ClassNameMap<T[number][1]>,
+      StyleMap<T[number][1]>
+    ];
   },
   prefixClassName = 'rui'
 ) {
@@ -16,18 +15,17 @@ export function resolveRadioStyles<T extends [string, string][]>(
     const curr = maps[key as T[number][0]];
     const defaultClassName =
       prefixClassName !== undefined
-        ? `${prefixClassName}-${key}-${curr.current}`
+        ? `${prefixClassName}-${key}-${curr[0]}`
         : '';
     return {
       ...acc,
-      [key]: {
-        style: curr.styleMap[curr.current] || {},
-        className: `${defaultClassName} ${curr.classNameMap[curr.current] ||
-          ''}`,
+      [key+"Styles"]: {
+        style: curr[2][curr[0]] || {},
+        className: `${defaultClassName} ${curr[1][curr[0]] || ''}`,
       },
     };
   }, {}) as Record<
-    T[number][0],
+    `${T[number][0]}Styles`,
     { style: React.CSSProperties; className: string }
   >;
 }
