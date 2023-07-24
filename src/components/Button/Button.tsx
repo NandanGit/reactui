@@ -17,6 +17,7 @@ import { HoverEvent } from '../types';
 import { useInteractionState } from '../../hooks/useInteractionState';
 import { resolveStyles } from '../utils/resolveStyles';
 import { componentInteractionStates } from '../types/constants';
+import { resolveRadioStyles } from '../utils/resolveRadioStyles';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
@@ -88,17 +89,29 @@ export const Button: React.FC<ButtonProps> = ({
     onHoverEnd,
   });
 
-  const sizeClassName = `rui-size-${size} ${classNameBySize[size] || ''}`;
-  const sizeStyle = styleBySize[size] || {};
-
-  const statusClassName = `rui-status-${status} ${classNameByStatus[status] ||
-    ''}`;
-  const statusStyle = styleByStatus[status] || {};
-
-  const variantClassName = `rui-variant-${variant} ${classNameByVariant[
-    variant
-  ] || ''}`;
-  const variantStyle = styleByVariant[variant] || {};
+  const {
+    size: sizeStyles,
+    status: statusStyles,
+    variant: variantStyles,
+  } = resolveRadioStyles<
+    [['size', ButtonSize], ['status', ButtonStatus], ['variant', ButtonVariant]]
+  >({
+    size: {
+      current: size,
+      classNameMap: classNameBySize,
+      styleMap: styleBySize,
+    },
+    status: {
+      current: status,
+      classNameMap: classNameByStatus,
+      styleMap: styleByStatus,
+    },
+    variant: {
+      current: variant,
+      classNameMap: classNameByVariant,
+      styleMap: styleByVariant,
+    },
+  });
 
   const { disabled, pressed, hovered, focused } = resolveStyles(
     componentInteractionStates,
@@ -114,11 +127,11 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`${userDefinedClassName} ${sizeClassName} ${statusClassName} ${variantClassName} ${hovered.className} ${pressed.className} ${disabled.className} ${focused.className}`}
+      className={`${userDefinedClassName} ${sizeStyles.className} ${statusStyles.className} ${variantStyles.className} ${hovered.className} ${pressed.className} ${disabled.className} ${focused.className}`}
       style={{
-        ...sizeStyle,
-        ...statusStyle,
-        ...variantStyle,
+        ...sizeStyles.style,
+        ...statusStyles.style,
+        ...variantStyles.style,
         ...hovered.style,
         ...pressed.style,
         ...disabled.style,
