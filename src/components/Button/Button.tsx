@@ -2,42 +2,26 @@ import React, { useRef } from 'react';
 import { AriaButtonProps, useButton } from 'react-aria';
 import {
   ButtonSize,
-  ButtonSizeToClassNameMap,
-  ButtonSizeToStyleMap,
   ButtonInteractionState,
   ButtonStatus,
-  ButtonStatusToClassNameMap,
-  ButtonStatusToStyleMap,
   ButtonVariant,
-  ButtonVariantToClassNameMap,
-  ButtonVariantToStyleMap,
 } from './Button.types';
 import { HoverEvent } from '../types';
 import { useInteractionState } from '../../hooks/useInteractionState';
-import { resolveStyles } from '../utils/resolveStyles';
 import { componentInteractionStates } from '../types/constants';
-import { resolveRadioStyles } from '../utils/resolveRadioStyles';
 import { ComponentAppearance } from '../types/ComponentAppearance';
+import { resolveStaticStyles } from '../utils/resolveStaticStyles';
+import { resolveDynamicStyles } from '../utils/resolveDynamicStyes';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 
-  // Size
+  // Static
   size?: ButtonSize;
-  classNameBySize?: ButtonSizeToClassNameMap;
-  styleBySize?: ButtonSizeToStyleMap;
-
-  // Status
   status?: ButtonStatus;
-  classNameByStatus?: ButtonStatusToClassNameMap;
-  styleByStatus?: ButtonStatusToStyleMap;
-
-  // Variant
   variant?: ButtonVariant;
-  classNameByVariant?: ButtonVariantToClassNameMap;
-  styleByVariant?: ButtonVariantToStyleMap;
 
   // Events
   onHover?: (e: HoverEvent) => void;
@@ -61,17 +45,10 @@ export const Button: React.FC<ButtonProps> = ({
   className: userDefinedClassName = '',
   style: userDefinedStyle = {},
 
+  // Static
   size = 'md',
-  // classNameBySize = {},
-  // styleBySize = {},
-
   status = 'default',
-  // classNameByStatus = {},
-  // styleByStatus = {},
-
   variant = 'filled',
-  // classNameByVariant = {},
-  // styleByVariant = {},
 
   onHoverStart,
   onHoverEnd,
@@ -96,47 +73,43 @@ export const Button: React.FC<ButtonProps> = ({
     onHoverEnd,
   });
 
-  // Static Appearance
-  const staticClassNameMaps = appearance?.static.classNameMaps || {};
-  const staticStyleMaps = appearance?.static.styleMaps || {};
-
   const {
     size: sizeStyles,
     status: statusStyles,
     variant: variantStyles,
-  } = resolveRadioStyles<{
+  } = resolveStaticStyles<{
     size: ButtonSize;
     status: ButtonStatus;
     variant: ButtonVariant;
-  }>({
-    size: [size, staticClassNameMaps.size, staticStyleMaps.size],
-    status: [status, staticClassNameMaps.status, staticStyleMaps.status],
-    variant: [variant, staticClassNameMaps.variant, staticStyleMaps.variant],
+  }>(appearance?.static, {
+    size,
+    status,
+    variant,
   });
 
-  const { disabled, pressed, hovered, focused } = resolveStyles(
-    componentInteractionStates,
-    appearance?.dynamic.classNameMap || {},
-    appearance?.dynamic.styleMap || {},
-    {
-      disabled: props.isDisabled || false,
-      pressed: isPressed,
-      focused: isFocusVisible,
-      hovered: isHovered,
-    }
-  );
+  const {
+    disabled: disabledStyles,
+    pressed: pressedStyles,
+    hovered: hoveredStyles,
+    focused: focusedStyles,
+  } = resolveDynamicStyles(componentInteractionStates, appearance?.dynamic, {
+    disabled: props.isDisabled || false,
+    pressed: isPressed,
+    focused: isFocusVisible,
+    hovered: isHovered,
+  });
 
   return (
     <button
-      className={`${userDefinedClassName} ${sizeStyles.className} ${statusStyles.className} ${variantStyles.className} ${hovered.className} ${pressed.className} ${disabled.className} ${focused.className}`}
+      className={`${userDefinedClassName} ${sizeStyles.className} ${statusStyles.className} ${variantStyles.className} ${hoveredStyles.className} ${pressedStyles.className} ${disabledStyles.className} ${focusedStyles.className}`}
       style={{
         ...sizeStyles.style,
         ...statusStyles.style,
         ...variantStyles.style,
-        ...hovered.style,
-        ...pressed.style,
-        ...disabled.style,
-        ...focused.style,
+        ...hoveredStyles.style,
+        ...pressedStyles.style,
+        ...disabledStyles.style,
+        ...focusedStyles.style,
 
         ...userDefinedStyle,
       }}
