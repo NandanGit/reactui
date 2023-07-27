@@ -1,30 +1,30 @@
-import { ClassNameMap, StyleMap } from '../../types';
+import { ClassName, ClassNameMap, Style, StyleMap } from '../../types';
 
-export function resolveRadioStyles<T extends [string, string][]>(
+export function resolveRadioStyles<T extends Record<string, string>>(
   maps: {
-    [key in T[number][0]]: [
-      T[number][1],
-      ClassNameMap<T[number][1]>,
-      StyleMap<T[number][1]>
+    [key in keyof T]: [
+      T[key],
+      ClassNameMap<T[key]> | undefined,
+      StyleMap<T[key]> | undefined
     ];
   },
   prefixClassName = 'rui'
 ) {
   return Object.keys(maps).reduce((acc, key) => {
-    const curr = maps[key as T[number][0]];
+    const curr = maps[key as keyof T];
+    const [
+      value,
+      classNameMap = {} as ClassNameMap<string>,
+      styleMap = {} as StyleMap<string>,
+    ] = curr;
     const defaultClassName =
-      prefixClassName !== undefined
-        ? `${prefixClassName}-${key}-${curr[0]}`
-        : '';
+      prefixClassName !== undefined ? `${prefixClassName}-${key}-${value}` : '';
     return {
       ...acc,
       [key]: {
-        style: curr[2][curr[0]] || {},
-        className: `${defaultClassName} ${curr[1][curr[0]] || ''}`,
+        style: styleMap[value] || {},
+        className: `${defaultClassName} ${classNameMap[value] || ''}`,
       },
     };
-  }, {}) as Record<
-    T[number][0],
-    { style: React.CSSProperties; className: string }
-  >;
+  }, {}) as Record<keyof T, { style: Style; className: ClassName }>;
 }

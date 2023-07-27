@@ -24,11 +24,11 @@ type Story = StoryObj<typeof Button>;
 const Btn: typeof Button = ({className,...props}) => {
   return <Button 
   className={`${className} glass rounded-md hover:cursor-pointer hover:scale-[1.02] hover:bg-opacity-20 outline-none transition-all`} 
-  classNameBySize={{
-    sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
-    md: 'text-[1rem] px-3 py-2',
-    lg: 'text-[1.25rem] px-4 py-3',
-  }}
+  // classNameBySize={{
+  //   sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
+  //   md: 'text-[1rem] px-3 py-2',
+  //   lg: 'text-[1.25rem] px-4 py-3',
+  // }}
   classNameByVariant={{
     outline: 'bg-opacity-0 shadow-[inset_0_0_0_0.1rem_#fff1] hover:bg-opacity-10 hover:shadow-[inset_0_0_0_0.1rem_#fff0]',
     ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent',
@@ -42,7 +42,7 @@ const Btn: typeof Button = ({className,...props}) => {
     danger: 'bg-opacity-40 bg-red-900 text-red-200 text-opacity-70 hover:bg-opacity-40',
     info: 'bg-opacity-40 bg-sky-900 text-sky-200 text-opacity-70 hover:bg-opacity-40',
   }}
-  
+
   styleByVariant={{
     ghost: {
       background: 'transparent',
@@ -51,7 +51,15 @@ const Btn: typeof Button = ({className,...props}) => {
 
   // Begin Experiment
   appearance={{
-    static: {},
+    static: {
+      classNameMaps: {
+        size: {
+          sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
+          md: 'text-[1rem] px-3 py-2',
+          lg: 'text-[1.25rem] px-4 py-3',
+        }
+      }
+    },
     dynamic: {
       classNameMap: {
         disabled: 'disabled',

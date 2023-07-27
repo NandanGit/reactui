@@ -62,7 +62,7 @@ export const Button: React.FC<ButtonProps> = ({
   style: userDefinedStyle = {},
 
   size = 'md',
-  classNameBySize = {},
+  // classNameBySize = {},
   styleBySize = {},
 
   status = 'default',
@@ -96,14 +96,20 @@ export const Button: React.FC<ButtonProps> = ({
     onHoverEnd,
   });
 
+  // Static Appearance
+  const staticClassNameMaps = appearance?.static.classNameMaps || {};
+  const staticStyleMaps = appearance?.static.styleMaps || {};
+
   const {
     size: sizeStyles,
     status: statusStyles,
     variant: variantStyles,
-  } = resolveRadioStyles<
-    [['size', ButtonSize], ['status', ButtonStatus], ['variant', ButtonVariant]]
-  >({
-    size: [size, classNameBySize, styleBySize],
+  } = resolveRadioStyles<{
+    size: ButtonSize;
+    status: ButtonStatus;
+    variant: ButtonVariant;
+  }>({
+    size: [size, staticClassNameMaps.size, staticStyleMaps.size],
     status: [status, classNameByStatus, styleByStatus],
     variant: [variant, classNameByVariant, styleByVariant],
   });
