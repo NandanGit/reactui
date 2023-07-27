@@ -63,15 +63,15 @@ export const Button: React.FC<ButtonProps> = ({
 
   size = 'md',
   // classNameBySize = {},
-  styleBySize = {},
+  // styleBySize = {},
 
   status = 'default',
-  classNameByStatus = {},
-  styleByStatus = {},
+  // classNameByStatus = {},
+  // styleByStatus = {},
 
   variant = 'filled',
-  classNameByVariant = {},
-  styleByVariant = {},
+  // classNameByVariant = {},
+  // styleByVariant = {},
 
   onHoverStart,
   onHoverEnd,
@@ -110,8 +110,8 @@ export const Button: React.FC<ButtonProps> = ({
     variant: ButtonVariant;
   }>({
     size: [size, staticClassNameMaps.size, staticStyleMaps.size],
-    status: [status, classNameByStatus, styleByStatus],
-    variant: [variant, classNameByVariant, styleByVariant],
+    status: [status, staticClassNameMaps.status, staticStyleMaps.status],
+    variant: [variant, staticClassNameMaps.variant, staticStyleMaps.variant],
   });
 
   const { disabled, pressed, hovered, focused } = resolveStyles(

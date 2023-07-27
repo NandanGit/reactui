@@ -29,25 +29,25 @@ const Btn: typeof Button = ({className,...props}) => {
   //   md: 'text-[1rem] px-3 py-2',
   //   lg: 'text-[1.25rem] px-4 py-3',
   // }}
-  classNameByVariant={{
-    outline: 'bg-opacity-0 shadow-[inset_0_0_0_0.1rem_#fff1] hover:bg-opacity-10 hover:shadow-[inset_0_0_0_0.1rem_#fff0]',
-    ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent',
-    link: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent hover:underline text-blue-500 hover:scale-105',
-  }}
-  classNameByStatus={{
-    primary: 'bg-opacity-40 bg-violet-900 text-violet-200 text-opacity-80 hover:bg-opacity-50',
-    success: 'bg-opacity-40 bg-green-800 text-green-200 text-opacity-80 hover:bg-opacity-50',
-    secondary: 'bg-opacity-40 bg-teal-900 text-teal-200 text-opacity-70 hover:bg-opacity-40',
-    warning: 'bg-opacity-40 bg-yellow-800 text-yellow-200 text-opacity-80 hover:bg-opacity-50',
-    danger: 'bg-opacity-40 bg-red-900 text-red-200 text-opacity-70 hover:bg-opacity-40',
-    info: 'bg-opacity-40 bg-sky-900 text-sky-200 text-opacity-70 hover:bg-opacity-40',
-  }}
+  // classNameByVariant={{
+    // outline: 'bg-opacity-0 shadow-[inset_0_0_0_0.1rem_#fff1] hover:bg-opacity-10 hover:shadow-[inset_0_0_0_0.1rem_#fff0]',
+    // ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent',
+    // link: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent hover:underline text-blue-500 hover:scale-105',
+  // }}
+  // classNameByStatus={{
+  //   primary: 'bg-opacity-40 bg-violet-900 text-violet-200 text-opacity-80 hover:bg-opacity-50',
+  //   success: 'bg-opacity-40 bg-green-800 text-green-200 text-opacity-80 hover:bg-opacity-50',
+  //   secondary: 'bg-opacity-40 bg-teal-900 text-teal-200 text-opacity-70 hover:bg-opacity-40',
+  //   warning: 'bg-opacity-40 bg-yellow-800 text-yellow-200 text-opacity-80 hover:bg-opacity-50',
+  //   danger: 'bg-opacity-40 bg-red-900 text-red-200 text-opacity-70 hover:bg-opacity-40',
+  //   info: 'bg-opacity-40 bg-sky-900 text-sky-200 text-opacity-70 hover:bg-opacity-40',
+  // }}
 
-  styleByVariant={{
-    ghost: {
-      background: 'transparent',
-    }
-  }}
+  // styleByVariant={{
+  //   ghost: {
+  //     background: 'transparent',
+  //   }
+  // }}
 
   // Begin Experiment
   appearance={{
@@ -57,6 +57,26 @@ const Btn: typeof Button = ({className,...props}) => {
           sm: 'text-[0.75rem] px-[0.6rem] py-[0.3rem]',
           md: 'text-[1rem] px-3 py-2',
           lg: 'text-[1.25rem] px-4 py-3',
+        },
+        status: {
+          primary: 'bg-opacity-40 bg-violet-900 text-violet-200 text-opacity-80 hover:bg-opacity-50',
+          success: 'bg-opacity-40 bg-green-800 text-green-200 text-opacity-80 hover:bg-opacity-50',
+          secondary: 'bg-opacity-40 bg-teal-900 text-teal-200 text-opacity-70 hover:bg-opacity-40',
+          warning: 'bg-opacity-40 bg-yellow-800 text-yellow-200 text-opacity-80 hover:bg-opacity-50',
+          danger: 'bg-opacity-40 bg-red-900 text-red-200 text-opacity-70 hover:bg-opacity-40',
+          info: 'bg-opacity-40 bg-sky-900 text-sky-200 text-opacity-70 hover:bg-opacity-40',
+        },
+        variant: {
+          outline: 'bg-opacity-0 shadow-[inset_0_0_0_0.1rem_#fff1] hover:bg-opacity-10 hover:shadow-[inset_0_0_0_0.1rem_#fff0]',
+          ghost: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent',
+          link: 'bg-opacity-0 backdrop-blur-0 shadow-none hover:bg-transparent hover:underline text-blue-500 hover:scale-105',
+        }
+      },
+      styleMaps: {
+        variant: {
+          ghost: {
+            background: 'transparent',
+          }
         }
       }
     },
