@@ -89,7 +89,11 @@ export const Button: React.FC<ButtonProps> = ({
     onHoverEnd,
   });
 
-  const { sizeStyles, statusStyles, variantStyles } = resolveRadioStyles<
+  const {
+    size: sizeStyles,
+    status: statusStyles,
+    variant: variantStyles,
+  } = resolveRadioStyles<
     [['size', ButtonSize], ['status', ButtonStatus], ['variant', ButtonVariant]]
   >({
     size: [size, classNameBySize, styleBySize],

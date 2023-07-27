@@ -18,7 +18,7 @@ export const Container: React.FC<ContainerProps> = ({
 }) => {
   return (
     <div
-      className={`h-[95vh] w-full flex items-center justify-center bg-[url(./assets/background.svg)]`}
+      className={`h-screen w-full flex items-center justify-center bg-[url(./assets/background.svg)]`}
       style={{
         backgroundImage: `url(${background})`,
         backgroundSize: 'cover',

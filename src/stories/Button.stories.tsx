@@ -72,9 +72,14 @@ export const Sizes: Story = {
   ),
 }
 
+const Link: React.FC<{href: string, children: React.ReactNode}> = ({href, children}) => {
+  return <a href={href}><Btn variant="link" style={{padding:0}}>{children}</Btn></a>
+}
+
 export const Variants: Story = {
   render: () => (
-  <Container horizontal>
+  <Container>
+    <div>This is a <Link href='#'>link</Link> within a sentence.</div>
     <div className='grid grid-cols-2 gap-2'>
       <Btn variant="filled" status='primary'>Filled</Btn>
       <Btn variant="ghost">Ghost</Btn>
@@ -135,10 +140,10 @@ export const InteractionStates: Story = {
   },
 }
 
-export const Foo: Story =  {
-  render: () => (
-    <Container>
-      <Button variant="outline">Hello</Button>
-    </Container>
-  )
-}
+// export const Foo: Story =  {
+//   render: () => (
+//     <Container>
+//       <Button variant="outline">Hello</Button>
+//     </Container>
+//   )
+// }

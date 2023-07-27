@@ -1,5 +1,4 @@
-import { ClassNameMap, StyleMap } from "../../types";
-
+import { ClassNameMap, StyleMap } from '../../types';
 
 export function resolveRadioStyles<T extends [string, string][]>(
   maps: {
@@ -19,13 +18,13 @@ export function resolveRadioStyles<T extends [string, string][]>(
         : '';
     return {
       ...acc,
-      [key+"Styles"]: {
+      [key]: {
         style: curr[2][curr[0]] || {},
         className: `${defaultClassName} ${curr[1][curr[0]] || ''}`,
       },
     };
   }, {}) as Record<
-    `${T[number][0]}Styles`,
+    T[number][0],
     { style: React.CSSProperties; className: string }
   >;
 }
