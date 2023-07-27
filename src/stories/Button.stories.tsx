@@ -42,21 +42,30 @@ const Btn: typeof Button = ({className,...props}) => {
     danger: 'bg-opacity-40 bg-red-900 text-red-200 text-opacity-70 hover:bg-opacity-40',
     info: 'bg-opacity-40 bg-sky-900 text-sky-200 text-opacity-70 hover:bg-opacity-40',
   }}
-  classNameByState={{
-    disabled: 'disabled',
-    pressed: 'transform scale-[0.98]',
-    focused: 'ring-1 ring-offset-gray-100 ring-white ring-opacity-60',
-  }}
-  styleByState={{
-    pressed: {
-      transform: 'scale(0.98)',
-    },
-  }}
+  
   styleByVariant={{
     ghost: {
       background: 'transparent',
     }
   }}
+
+  // Begin Experiment
+  appearance={{
+    static: {},
+    dynamic: {
+      classNameMap: {
+        disabled: 'disabled',
+        pressed: 'transform scale-[0.98]',
+        focused: 'ring-1 ring-offset-gray-100 ring-white ring-opacity-50',
+      },
+      styleMap: {
+        pressed: {
+          transform: 'scale(0.98)',
+        },
+      }
+    }
+  }}
+  // End Experiment
   
   {...props} />
 }

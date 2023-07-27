@@ -15,15 +15,7 @@ export type ButtonSizeToStyleMap = ComponentAttributeMap<
   React.CSSProperties
 >;
 
-export type ButtonState = InteractionState;
-export type ButtonStateToClassNameMap = ComponentAttributeMap<
-  ButtonState,
-  string
->;
-export type ButtonStateToStyleMap = ComponentAttributeMap<
-  ButtonState,
-  React.CSSProperties
->;
+export type ButtonInteractionState = InteractionState;
 
 export type ButtonStatus = ComponentStatus | 'primary' | 'secondary';
 export type ButtonStatusToClassNameMap = ComponentAttributeMap<

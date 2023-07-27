@@ -4,8 +4,7 @@ import {
   ButtonSize,
   ButtonSizeToClassNameMap,
   ButtonSizeToStyleMap,
-  ButtonStateToClassNameMap,
-  ButtonStateToStyleMap,
+  ButtonInteractionState,
   ButtonStatus,
   ButtonStatusToClassNameMap,
   ButtonStatusToStyleMap,
@@ -18,6 +17,7 @@ import { useInteractionState } from '../../hooks/useInteractionState';
 import { resolveStyles } from '../utils/resolveStyles';
 import { componentInteractionStates } from '../types/constants';
 import { resolveRadioStyles } from '../utils/resolveRadioStyles';
+import { ComponentAppearance } from '../types/ComponentAppearance';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
@@ -39,14 +39,20 @@ export interface ButtonProps extends AriaButtonProps {
   classNameByVariant?: ButtonVariantToClassNameMap;
   styleByVariant?: ButtonVariantToStyleMap;
 
-  // InteractionState
-  classNameByState?: ButtonStateToClassNameMap;
-  styleByState?: ButtonStateToStyleMap;
-
   // Events
   onHover?: (e: HoverEvent) => void;
   onHoverStart?: (e: HoverEvent) => void;
   onHoverEnd?: (e: HoverEvent) => void;
+
+  // Experiment
+  appearance?: ComponentAppearance<
+    {
+      size: ButtonSize;
+      status: ButtonStatus;
+      variant: ButtonVariant;
+    },
+    ButtonInteractionState
+  >;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -67,11 +73,12 @@ export const Button: React.FC<ButtonProps> = ({
   classNameByVariant = {},
   styleByVariant = {},
 
-  classNameByState = {},
-  styleByState = {},
-
   onHoverStart,
   onHoverEnd,
+
+  // Experiment
+  appearance,
+  // End Experiment
 
   ...props
 }) => {
@@ -103,8 +110,8 @@ export const Button: React.FC<ButtonProps> = ({
 
   const { disabled, pressed, hovered, focused } = resolveStyles(
     componentInteractionStates,
-    classNameByState,
-    styleByState,
+    appearance?.dynamic.classNameMap || {},
+    appearance?.dynamic.styleMap || {},
     {
       disabled: props.isDisabled || false,
       pressed: isPressed,
