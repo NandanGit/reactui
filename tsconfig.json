@@ -35,6 +35,7 @@
     "noEmit": true,
 
     // Custom options
-    "removeComments": true
+    "removeComments": true,
+    "target": "ES6"
   }
 }
