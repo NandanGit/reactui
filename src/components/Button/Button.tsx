@@ -2,21 +2,23 @@ import React, { useRef } from 'react';
 import { AriaButtonProps, useButton } from 'react-aria';
 import {
   ButtonSize,
-  ButtonInteractionState,
   ButtonStatus,
   ButtonVariant,
+  ButtonAppearance,
 } from './Button.types';
 import { HoverEvent } from '../types';
 import { useInteractionState } from '../../hooks/useInteractionState';
 import { componentInteractionStates } from '../types/constants';
-import { ComponentAppearance } from '../types/ComponentAppearance';
 import { resolveStaticStyles } from '../utils/resolveStaticStyles';
 import { resolveDynamicStyles } from '../utils/resolveDynamicStyes';
 
 export interface ButtonProps extends AriaButtonProps {
   children: React.ReactNode;
+
+  // Styles
   className?: string;
   style?: React.CSSProperties;
+  appearance?: ButtonAppearance;
 
   // Static
   size?: ButtonSize;
@@ -27,16 +29,6 @@ export interface ButtonProps extends AriaButtonProps {
   onHover?: (e: HoverEvent) => void;
   onHoverStart?: (e: HoverEvent) => void;
   onHoverEnd?: (e: HoverEvent) => void;
-
-  // Experiment
-  appearance?: ComponentAppearance<
-    {
-      size: ButtonSize;
-      status: ButtonStatus;
-      variant: ButtonVariant;
-    },
-    ButtonInteractionState
-  >;
 }
 
 export const Button: React.FC<ButtonProps> = ({

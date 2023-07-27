@@ -14,10 +14,6 @@ export interface ComponentAppearance<
     ComponentAppearance<Record<string, string>, string, {}>
   > = {}
 > {
-  // basic: {
-  //   className: ClassName;
-  //   style?: Style;
-  // };
   container?: {
     className: ClassName;
     style?: Style;
