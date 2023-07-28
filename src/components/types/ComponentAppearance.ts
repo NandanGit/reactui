@@ -6,7 +6,7 @@ import type {
   StyleMap,
 } from '../../types';
 
-export interface ComponentAppearance<
+export interface ComponentAppearance<   
   TStatic extends Record<string, string>,
   TDynamic extends string,
   TChildrenAppearances extends PartialRecord<
@@ -15,7 +15,11 @@ export interface ComponentAppearance<
   > = {}
 > {
   container?: {
-    className: ClassName;
+    className?: ClassName;
+    style?: Style;
+  },
+  self?: {
+    className?: ClassName;
     style?: Style;
   },
   static: {

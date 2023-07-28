@@ -13,8 +13,6 @@ import { resolveStaticStyles } from '../utils/resolveStaticStyles';
 import { resolveDynamicStyles } from '../utils/resolveDynamicStyes';
 
 export interface ButtonProps extends AriaButtonProps {
-  children: React.ReactNode;
-
   // Styles
   className?: string;
   style?: React.CSSProperties;
@@ -36,6 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   className: userDefinedClassName = '',
   style: userDefinedStyle = {},
+  appearance,
 
   // Static
   size = 'md',
@@ -44,10 +43,6 @@ export const Button: React.FC<ButtonProps> = ({
 
   onHoverStart,
   onHoverEnd,
-
-  // Experiment
-  appearance,
-  // End Experiment
 
   ...props
 }) => {
@@ -99,9 +94,9 @@ export const Button: React.FC<ButtonProps> = ({
         ...statusStyles.style,
         ...variantStyles.style,
         ...hoveredStyles.style,
+        ...focusedStyles.style,
         ...pressedStyles.style,
         ...disabledStyles.style,
-        ...focusedStyles.style,
 
         ...userDefinedStyle,
       }}

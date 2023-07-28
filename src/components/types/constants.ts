@@ -1,4 +1,5 @@
-export const componentSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+export const componentSizes = ['sm', 'md', 'lg'] as const;
+export const extendedComponentSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
 export const componentInteractionStates = [
   // 'default',

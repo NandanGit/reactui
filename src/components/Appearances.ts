@@ -1,4 +1,5 @@
 import { ComponentAppearance } from './types/ComponentAppearance';
 import { ButtonAppearance } from './Button/Button.types';
+import { SwitchAppearance } from './Switch/Switch.types';
 
-export type { ButtonAppearance, ComponentAppearance };
+export type {  ComponentAppearance, ButtonAppearance, SwitchAppearance };

@@ -20,7 +20,7 @@ export default meta;
 
 type Story = StoryObj<typeof Button>;
 
-// Custom Component
+// Custom Button
 const Btn: typeof Button = ({className,...props}) => {
   return <Button 
   className={`${className} glass rounded-md hover:cursor-pointer hover:scale-[1.02] hover:bg-opacity-20 outline-none transition-all`} 
