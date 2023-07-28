@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.5",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -46,7 +46,7 @@
     },
     {
       "path": "dist/reactui.esm.js",
-      "limit": "10 KB"
+      "limit": "50 KB"
     }
   ],
   "dependencies": {

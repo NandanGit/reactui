@@ -3,6 +3,7 @@ import {
   componentSizes,
   componentInteractionStates,
   componentStatuses,
+  extendedComponentSizes,
 } from './constants';
 import { HoverProps, PressProps } from 'react-aria';
 import { ArgumentType } from '../../types';
@@ -12,6 +13,8 @@ export type ComponentAttributeMap<TKey extends string, TValue> = Partial<
 >;
 
 export type ComponentSize = typeof componentSizes[number];
+export type ExtendedComponentSize = typeof extendedComponentSizes[number];
+
 export type SizeToClassNameMap = ComponentAttributeMap<ComponentSize, string>;
 export type SizeToStyleMap = ComponentAttributeMap<
   ComponentSize,

@@ -13,3 +13,7 @@ export type Style = React.CSSProperties;
 
 export type ClassNameMap<T extends string> = PartialRecord<T, ClassName>;
 export type StyleMap<T extends string> = PartialRecord<T, Style>;
+export type Styles<T extends string = string> = {
+  classNameMap: ClassNameMap<T>;
+  styleMap?: StyleMap<T>;
+};
