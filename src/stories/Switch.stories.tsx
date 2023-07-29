@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { Switch, SwitchProps } from '../components';
 import { Container } from './Container';
@@ -16,6 +16,7 @@ import {
   TextIcon,
   TextNoneIcon,
 } from '@radix-ui/react-icons';
+import clsx from 'clsx';
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
@@ -170,9 +171,11 @@ export const Sizes: Story = {
 const DisplaySwitches: React.FC<{
   propCollection: [string, Partial<SwitchProps>][];
   commonProps?: Partial<SwitchProps>;
-}> = ({ propCollection, commonProps = {} }) => {
+  className?: string;
+  children?: React.ReactNode;
+}> = ({ propCollection, commonProps = {}, className = '', children }) => {
   return (
-    <div className="flex flex-col items-start space-y-2">
+    <div className={clsx(className, 'flex flex-col items-start space-y-2')}>
       {propCollection.map(([label, props], ind) => (
         <div className="flex flex-row-reverse items-center" key={label}>
           {label}
@@ -183,6 +186,7 @@ const DisplaySwitches: React.FC<{
           />
         </div>
       ))}
+      {children}
     </div>
   );
 };
@@ -295,23 +299,81 @@ export const WithIcons: Story = {
             ],
           ]}
         />
-        <div className="flex space-x-1">
-          {[
-            [<SpeakerOffIcon />, <SpeakerLoudIcon />],
-            [<EyeClosedIcon />, <EyeOpenIcon />],
-            [<ShadowNoneIcon />, <ShadowIcon />],
-            [<TextNoneIcon />, <TextIcon />],
-          ].map(([offIcon, onIcon], ind) => (
+      </Container>
+    );
+  },
+};
+
+export const MoreWithIcons: Story = {
+  render: () => {
+    type SwitchType = 'sound' | 'visibility' | 'shadow' | 'text';
+    const [isSwitchOnMap, setIsSwitchOnMap] = useState<
+      Record<SwitchType, boolean>
+    >({
+      sound: Math.random() > 0.5,
+      visibility: Math.random() > 0.5,
+      shadow: Math.random() > 0.5,
+      text: Math.random() > 0.5,
+    });
+
+    const [colorTheme, setColorTheme] = useState<'dark' | 'light'>('dark');
+
+    const iconsMap = useMemo<
+      Record<SwitchType, [React.JSX.Element, React.JSX.Element]>
+    >(
+      () => ({
+        sound: [<SpeakerOffIcon />, <SpeakerLoudIcon />],
+        visibility: [<EyeClosedIcon />, <EyeOpenIcon />],
+        shadow: [<ShadowNoneIcon />, <ShadowIcon />],
+        text: [<TextNoneIcon />, <TextIcon />],
+      }),
+      []
+    );
+
+    return (
+      <Container>
+        <DisplaySwitches
+          propCollection={[
+            ...Object.entries(isSwitchOnMap).map<
+              [string, Partial<SwitchProps>]
+            >(([key, value]) => [
+              `${capitalize(key)} is ${value ? 'enabled' : 'disabled'}`,
+              {
+                isSelected: value,
+                onIcon: iconsMap[key][1],
+                offIcon: iconsMap[key][0],
+                onChange: isSelected => {
+                  setIsSwitchOnMap(prev => ({
+                    ...prev,
+                    [key]: isSelected,
+                  }));
+                },
+              },
+            ]),
+          ]}
+          commonProps={{
+            // toggleButtonSizeFraction: 0.92,
+            size: 'lg',
+            status: 'default',
+          }}
+          className="w-2/3"
+        >
+          <div className="flex items-center">
             <Swt
-              label="sound"
+              label="Hello"
               size="lg"
+              containerClassName="mr-5"
               status="default"
-              onIcon={onIcon}
-              offIcon={offIcon}
-              key={String(ind)}
+              isSelected={colorTheme === 'dark'}
+              onChange={isSelected =>
+                setColorTheme(isSelected ? 'dark' : 'light')
+              }
+              offIcon="🌞"
+              onIcon="🌝"
             />
-          ))}
-        </div>
+            {`In ${colorTheme} mode`}
+          </div>
+        </DisplaySwitches>
       </Container>
     );
   },
