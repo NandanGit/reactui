@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Switch } from '../components';
+import { Switch, SwitchProps } from '../components';
 import { Container } from './Container';
 import { SwitchStatus } from '../components/Switch/Switch.types';
 import { capitalize } from './utils/string';
+import {
+  SunIcon,
+  MoonIcon,
+  SpeakerOffIcon,
+  SpeakerLoudIcon,
+  EyeOpenIcon,
+  EyeClosedIcon,
+  ShadowNoneIcon,
+  ShadowIcon,
+  TextIcon,
+  TextNoneIcon,
+} from '@radix-ui/react-icons';
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
@@ -50,6 +62,8 @@ const Swt: typeof Switch = ({ children, ...props }) => {
                   info: 'bg-opacity-50 bg-info-500',
                   primary: 'bg-opacity-50 bg-primary-500',
                   secondary: 'bg-opacity-50 bg-secondary-500',
+                  dark: 'bg-opacity-50 bg-gray-900',
+                  light: 'bg-opacity-50 bg-gray-100',
                 },
                 variant: {
                   outline:
@@ -153,9 +167,29 @@ export const Sizes: Story = {
   },
 };
 
+const DisplaySwitches: React.FC<{
+  propCollection: [string, Partial<SwitchProps>][];
+  commonProps?: Partial<SwitchProps>;
+}> = ({ propCollection, commonProps = {} }) => {
+  return (
+    <div className="flex flex-col items-start space-y-2">
+      {propCollection.map(([label, props], ind) => (
+        <div className="flex flex-row-reverse items-center" key={label}>
+          {label}
+          <Swt
+            label={label}
+            {...{ ...commonProps, ...props }}
+            containerClassName="mr-4"
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const Variants: Story = {
   render: () => {
-    const propCollection: [string, object][] = [
+    const propCollection: [string, Partial<SwitchProps>][] = [
       ['Filled', { variant: 'filled' }],
       ['Filled Selected', { variant: 'filled', defaultSelected: true }],
       ['Outline', { variant: 'outline' }],
@@ -163,19 +197,7 @@ export const Variants: Story = {
     ];
     return (
       <Container>
-        <div className="flex flex-col items-start space-y-2">
-          {propCollection.map(([label, props], ind) => (
-            <div className="flex flex-row-reverse items-center">
-              {label}{' '}
-              <Swt
-                label={label}
-                key={label}
-                {...props}
-                containerClassName="mr-4"
-              />
-            </div>
-          ))}
-        </div>
+        <DisplaySwitches propCollection={propCollection} />
       </Container>
     );
   },
@@ -191,18 +213,19 @@ export const Statuses: Story = {
       'danger',
       'info',
       'secondary',
+      'dark',
+      'light',
     ];
     return (
       <Container>
         <div className="grid grid-cols-2 gap-4 justify-items-end">
           {statuses.map((status, ind) => (
-            <div className="flex items-center">
+            <div className="flex items-center" key={status}>
               {capitalize(status)}
               <Swt
                 status={status}
                 defaultSelected
                 label={`sw-${ind + 1}`}
-                key={status}
                 containerClassName="ml-4"
               />
             </div>
@@ -215,13 +238,6 @@ export const Statuses: Story = {
 
 export const InteractionStates: Story = {
   render: () => {
-    // const propsCollection = [
-    //   { isDisabled: true },
-    //   { autoFocus: true },
-    //   { isDisabled: true, defaultSelected: true },
-    //   { isReadOnly: true },
-    //   {},
-    // ];
     const propCollection: [string, object][] = [
       ['Selected by default', { defaultSelected: true }],
       ['Disabled', { isDisabled: true }],
@@ -238,17 +254,62 @@ export const InteractionStates: Story = {
     ];
     return (
       <Container>
-        <div className="flex flex-col items-start space-y-2">
-          {propCollection.map(([label, props], ind) => (
-            <div className="flex flex-row-reverse items-center">
-              {label}{' '}
-              <Swt
-                label={label}
-                key={label}
-                {...props}
-                containerClassName="mr-4"
-              />
-            </div>
+        <DisplaySwitches propCollection={propCollection} />
+      </Container>
+    );
+  },
+};
+
+export const WithIcons: Story = {
+  render: () => {
+    return (
+      <Container>
+        <DisplaySwitches
+          commonProps={{
+            size: 'lg',
+            status: 'default',
+            // toggleButtonSizeFraction: 0.9,
+          }}
+          propCollection={[
+            // ['Normal', { defaultSelected: true, status: 'secondary' }],
+            ['With just Off Icon', { offIcon: <SunIcon /> }],
+            [
+              'With just On Icon',
+              { defaultSelected: true, onIcon: <MoonIcon /> },
+            ],
+            [
+              'With color changing Icons',
+              {
+                onIcon: <MoonIcon className="text-gray-900" />,
+                offIcon: <SunIcon className="text-warning-400/80" />,
+              },
+            ],
+            ['With character icons', { onIcon: '🌙', offIcon: '☀️' }],
+            [
+              'With letters',
+              {
+                onIcon: <p className="text-sm font-mono">ON</p>,
+                offIcon: <p className="text-sm font-mono">OFF</p>,
+                toggleButtonSizeFraction: 0.85,
+              },
+            ],
+          ]}
+        />
+        <div className="flex space-x-1">
+          {[
+            [<SpeakerOffIcon />, <SpeakerLoudIcon />],
+            [<EyeClosedIcon />, <EyeOpenIcon />],
+            [<ShadowNoneIcon />, <ShadowIcon />],
+            [<TextNoneIcon />, <TextIcon />],
+          ].map(([offIcon, onIcon], ind) => (
+            <Swt
+              label="sound"
+              size="lg"
+              status="default"
+              onIcon={onIcon}
+              offIcon={offIcon}
+              key={String(ind)}
+            />
           ))}
         </div>
       </Container>

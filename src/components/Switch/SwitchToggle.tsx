@@ -28,6 +28,9 @@ export interface SwitchToggleProps
   isFocusVisible: boolean;
   isDisabled: boolean;
   isSelected: boolean;
+
+  // Icons
+  hideIcons: boolean;
 }
 
 export const SwitchToggle: React.FC<SwitchToggleProps> = ({
@@ -46,6 +49,8 @@ export const SwitchToggle: React.FC<SwitchToggleProps> = ({
   isFocusVisible,
   isDisabled,
   isSelected,
+
+  hideIcons,
 
   ...props
 }) => {
@@ -87,7 +92,7 @@ export const SwitchToggle: React.FC<SwitchToggleProps> = ({
     sizeStyles.className,
     statusStyles.className,
     variantStyles.className,
-    selectedStyles.className
+    { [selectedStyles.className]: hideIcons }
   );
 
   const style = {

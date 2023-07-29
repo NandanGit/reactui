@@ -37,6 +37,13 @@ export interface SwitchProps extends AriaSwitchProps {
   onHoverStart?: (e: HoverEvent) => void;
   onHoverEnd?: (e: HoverEvent) => void;
 
+  // Icons
+  onIcon?: React.ReactNode;
+  offIcon?: React.ReactNode;
+  hideIcons?: boolean;
+  iconContainerClassName?: string;
+  iconContainerStyle?: React.CSSProperties;
+
   // Others
   label: string;
   showLabel?: boolean;
@@ -64,6 +71,12 @@ export const Switch: React.FC<SwitchProps> = ({
   showLabel = false,
   toggleButtonSizeFraction: tbs = 0.7,
   toggleButtonWidthFraction: tbw = 1,
+
+  onIcon,
+  offIcon,
+  hideIcons = false,
+  iconContainerClassName,
+  iconContainerStyle = {},
 
   ...props
 }) => {
@@ -153,16 +166,14 @@ export const Switch: React.FC<SwitchProps> = ({
         }}
         ref={indicatorRef}
       >
-        {/* <div ref={indicatorRef}></div> */}
         <SwitchToggle
           style={{
-            // marginLeft: toggleState.isSelected ? 'auto' : '0',
             width: toggleWidth,
             height: toggleHeight,
             left: toggleState.isSelected
-              ? // ? indWidth - (indHeight * (1 + tbs)) / 2
-                indWidth - (toggleWidth + (indHeight - toggleHeight) / 2)
+              ? indWidth - (toggleWidth + (indHeight - toggleHeight) / 2)
               : ((1 - tbs) / 2) * indHeight,
+            overflow: 'clip',
           }}
           {...{
             isPressed,
@@ -173,7 +184,18 @@ export const Switch: React.FC<SwitchProps> = ({
           }}
           {...{ size, status, variant }}
           appearance={appearance?.childrenAppearances?.toggle}
-        />
+          hideIcons={hideIcons || !onIcon}
+        >
+          <div
+            className={clsx(
+              'relative w-full h-full flex items-center justify-center',
+              iconContainerClassName
+            )}
+            style={{ ...iconContainerStyle }}
+          >
+            {hideIcons ? null : toggleState.isSelected ? onIcon : offIcon}
+          </div>
+        </SwitchToggle>
       </SwitchIndicator>
 
       {showLabel && children}

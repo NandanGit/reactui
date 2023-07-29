@@ -3,7 +3,12 @@ import { ComponentSize, ComponentStatus } from '../types';
 import { componentInteractionStates } from '../types/constants';
 
 export type SwitchSize = ComponentSize;
-export type SwitchStatus = ComponentStatus | 'primary' | 'secondary';
+export type SwitchStatus =
+  | ComponentStatus
+  | 'primary'
+  | 'secondary'
+  | 'dark'
+  | 'light';
 export type SwitchVariant = 'filled' | 'outline';
 
 export const switchInteractionStates = [
