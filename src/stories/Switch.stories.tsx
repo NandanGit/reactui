@@ -3,6 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { Switch } from '../components';
 import { Container } from './Container';
 import { SwitchStatus } from '../components/Switch/Switch.types';
+import { capitalize } from './utils/string';
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
@@ -196,7 +197,7 @@ export const Statuses: Story = {
         <div className="grid grid-cols-2 gap-4 justify-items-end">
           {statuses.map((status, ind) => (
             <div className="flex items-center">
-              {status}
+              {capitalize(status)}
               <Swt
                 status={status}
                 defaultSelected

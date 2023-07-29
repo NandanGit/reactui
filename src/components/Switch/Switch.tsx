@@ -17,6 +17,7 @@ import { useInteractionState } from '../../hooks/useInteractionState';
 import { SwitchIndicator } from './SwitchIndicator';
 import { SwitchToggle } from './SwitchToggle';
 import { resolveStaticStyles } from '../utils/resolveStaticStyles';
+import clsx from 'clsx';
 
 export interface SwitchProps extends AriaSwitchProps {
   // Styles
@@ -90,9 +91,12 @@ export const Switch: React.FC<SwitchProps> = ({
     hoverProps,
     isHovered,
     isPressed,
+    dataAttributes,
   } = useInteractionState({
     onHoverStart,
     onHoverEnd,
+    isDisabled: !!props.isDisabled,
+    isSelected: toggleState.isSelected,
   });
 
   useLayoutEffect(() => {
@@ -116,18 +120,18 @@ export const Switch: React.FC<SwitchProps> = ({
       {...labelProps}
       {...hoverProps}
       aria-labelledby={label}
-      className={`${appearance?.container?.className || ''} ${appearance?.self
-        ?.className || ''} ${containerClassName || ''} ${sizeStyles.className}`}
+      className={clsx(
+        appearance?.container?.className,
+        appearance?.self?.className,
+        containerClassName,
+        sizeStyles.className
+      )}
       style={{
         ...sizeStyles.style,
         ...appearance?.container?.style,
         ...containerStyle,
       }}
-      data-disabled={props.isDisabled ? true : undefined}
-      data-selected={toggleState.isSelected ? true : undefined}
-      data-pressed={isPressed ? true : undefined}
-      data-hovered={isHovered ? true : undefined}
-      data-focus-visible={isFocusVisible ? true : undefined}
+      {...dataAttributes}
     >
       <VisuallyHidden>
         <input {...inputProps} {...fieldProps} {...focusProps} ref={ref} />

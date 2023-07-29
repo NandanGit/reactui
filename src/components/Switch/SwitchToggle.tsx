@@ -8,6 +8,7 @@ import {
 } from './Switch.types';
 import { resolveDynamicStyles } from '../utils/resolveDynamicStyes';
 import { resolveStaticStyles } from '../utils/resolveStaticStyles';
+import clsx from 'clsx';
 
 export interface SwitchToggleProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -76,13 +77,18 @@ export const SwitchToggle: React.FC<SwitchToggleProps> = ({
     selected: isSelected,
   });
 
-  const className = ` ${userDefinedClassName} ${appearance?.self?.className ||
-    ''} ${disabledStyles.className} ${pressedStyles.className} ${
-    hoveredStyles.className
-  } ${focusedStyles.className} ${sizeStyles.className} ${
-    statusStyles.className
-  } ${variantStyles.className} ${selectedStyles.className}
-  `;
+  const className = clsx(
+    userDefinedClassName,
+    appearance?.self?.className,
+    disabledStyles.className,
+    pressedStyles.className,
+    hoveredStyles.className,
+    focusedStyles.className,
+    sizeStyles.className,
+    statusStyles.className,
+    variantStyles.className,
+    selectedStyles.className
+  );
 
   const style = {
     ...appearance?.self?.style,
