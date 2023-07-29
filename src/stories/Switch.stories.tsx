@@ -57,14 +57,14 @@ const Swt: typeof Switch = ({ children, ...props }) => {
             static: {
               classNameMaps: {
                 status: {
-                  success: 'bg-opacity-50 bg-success-500',
-                  warning: 'bg-opacity-50 bg-warning-500',
-                  danger: 'bg-opacity-50 bg-danger-500',
-                  info: 'bg-opacity-50 bg-info-500',
-                  primary: 'bg-opacity-50 bg-primary-500',
-                  secondary: 'bg-opacity-50 bg-secondary-500',
-                  dark: 'bg-opacity-50 bg-gray-900',
-                  light: 'bg-opacity-50 bg-gray-100',
+                  success: 'bg-opacity-30 bg-success-500',
+                  warning: 'bg-opacity-30 bg-warning-500',
+                  danger: 'bg-opacity-30 bg-danger-500',
+                  info: 'bg-opacity-30 bg-info-500',
+                  primary: 'bg-opacity-30 bg-primary-500',
+                  secondary: 'bg-opacity-30 bg-secondary-500',
+                  dark: 'bg-opacity-30 bg-gray-900',
+                  light: 'bg-opacity-30 bg-gray-100',
                 },
                 variant: {
                   outline:
@@ -86,7 +86,7 @@ const Swt: typeof Switch = ({ children, ...props }) => {
             static: {},
             dynamic: {
               classNameMap: {
-                selected: '!bg-gray-200/70',
+                selected: '!bg-gray-200/50',
               },
             },
           },
@@ -271,7 +271,7 @@ export const WithIcons: Story = {
         <DisplaySwitches
           commonProps={{
             size: 'lg',
-            status: 'default',
+            status: 'secondary',
             // toggleButtonSizeFraction: 0.9,
           }}
           propCollection={[
@@ -362,14 +362,15 @@ export const MoreWithIcons: Story = {
             <Swt
               label="Hello"
               size="lg"
+              toggleButtonSizeFraction={0.97}
               containerClassName="mr-5"
-              status="default"
+              status="dark"
               isSelected={colorTheme === 'dark'}
               onChange={isSelected =>
                 setColorTheme(isSelected ? 'dark' : 'light')
               }
-              offIcon="🌞"
-              onIcon="🌝"
+              onIcon={<p className="text-xl">🌙</p>}
+              offIcon={<p className="text-xl">☀️</p>}
             />
             {`In ${colorTheme} mode`}
           </div>
