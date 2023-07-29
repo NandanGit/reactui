@@ -271,7 +271,7 @@ export const WithIcons: Story = {
         <DisplaySwitches
           commonProps={{
             size: 'lg',
-            status: 'secondary',
+            status: 'default',
             // toggleButtonSizeFraction: 0.9,
           }}
           propCollection={[
