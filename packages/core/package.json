@@ -1,6 +1,6 @@
 {
   "name": "@reactds/core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "All the core unstyled components which can be used to create multiple design systems",
   "keywords": [
     "reactui",
