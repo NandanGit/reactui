@@ -12,13 +12,13 @@
   "author": "Nandan Reddy <nandan.reddy1133@gmail.com>",
   "homepage": "https://github.com/NandanGit/reactui#readme",
   "license": "MIT",
-  "main": "lib/core.js",
+  "main": "dist/index.js",
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
@@ -56,14 +56,14 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/reactui.esm.js",
+  "module": "dist/core.esm.js",
   "size-limit": [
     {
-      "path": "dist/reactui.cjs.production.min.js",
+      "path": "dist/core.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/reactui.esm.js",
+      "path": "dist/core.esm.js",
       "limit": "50 KB"
     }
   ],

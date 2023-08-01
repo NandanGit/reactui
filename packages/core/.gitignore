@@ -1,0 +1,10 @@
+*.log
+.DS_Store
+node_modules
+playground
+dist
+*.playground.*
+.cache
+
+# Custom
+.npmignore

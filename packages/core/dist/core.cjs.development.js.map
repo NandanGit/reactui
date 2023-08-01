@@ -1,1 +1,0 @@
-{"version":3,"file":"core.cjs.development.js","sources":["../src/index.ts"],"sourcesContent":["export const add = (a: number, b: number) => a + b;\n"],"names":["add","a","b"],"mappings":";;;;IAAaA,GAAG,GAAG,SAANA,GAAGA,CAAIC,CAAS,EAAEC,CAAS;EAAA,OAAKD,CAAC,GAAGC,CAAC;AAAA;;;;"}
