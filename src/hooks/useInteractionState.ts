@@ -6,7 +6,10 @@ import {
   usePress,
 } from 'react-aria';
 
-type InteractionStateOptions = HoverProps & PressHookProps;
+type InteractionStateOptions = HoverProps &
+  PressHookProps & {
+    isSelected?: boolean;
+  };
 
 export const useInteractionState = ({
   // Hover
@@ -26,6 +29,7 @@ export const useInteractionState = ({
 
   // Common
   isDisabled,
+  isSelected,
   ref,
 
   ...rest
@@ -39,7 +43,7 @@ export const useInteractionState = ({
     isDisabled,
   });
 
-  let { pressProps, isPressed } = usePress({
+  const { pressProps, isPressed } = usePress({
     onPress,
     onPressStart,
     onPressEnd,
@@ -52,6 +56,14 @@ export const useInteractionState = ({
     isPressed: rest.isPressed,
   });
 
+  const dataAttributes = {
+    'data-selected': isSelected ? true : undefined,
+    'data-disabled': isDisabled ? true : undefined,
+    'data-hovered': isHovered ? true : undefined,
+    'data-pressed': isPressed ? true : undefined,
+    'data-focus-visible': isFocusVisible ? true : undefined,
+  };
+
   return {
     isFocusVisible,
     focusProps,
@@ -59,5 +71,6 @@ export const useInteractionState = ({
     hoverProps,
     isPressed,
     pressProps,
+    dataAttributes,
   };
 };

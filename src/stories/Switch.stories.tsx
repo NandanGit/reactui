@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { Switch } from '../components';
+import { Switch, SwitchProps } from '../components';
 import { Container } from './Container';
 import { SwitchStatus } from '../components/Switch/Switch.types';
+import { capitalize } from './utils/string';
+import {
+  SunIcon,
+  MoonIcon,
+  SpeakerOffIcon,
+  SpeakerLoudIcon,
+  EyeOpenIcon,
+  EyeClosedIcon,
+  ShadowNoneIcon,
+  ShadowIcon,
+  TextIcon,
+  TextNoneIcon,
+} from '@radix-ui/react-icons';
+import clsx from 'clsx';
 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
@@ -43,12 +57,14 @@ const Swt: typeof Switch = ({ children, ...props }) => {
             static: {
               classNameMaps: {
                 status: {
-                  success: 'bg-opacity-50 bg-success-500',
-                  warning: 'bg-opacity-50 bg-warning-500',
-                  danger: 'bg-opacity-50 bg-danger-500',
-                  info: 'bg-opacity-50 bg-info-500',
-                  primary: 'bg-opacity-50 bg-primary-500',
-                  secondary: 'bg-opacity-50 bg-secondary-500',
+                  success: 'bg-opacity-30 bg-success-500',
+                  warning: 'bg-opacity-30 bg-warning-500',
+                  danger: 'bg-opacity-30 bg-danger-500',
+                  info: 'bg-opacity-30 bg-info-500',
+                  primary: 'bg-opacity-30 bg-primary-500',
+                  secondary: 'bg-opacity-30 bg-secondary-500',
+                  dark: 'bg-opacity-30 bg-gray-900',
+                  light: 'bg-opacity-30 bg-gray-100',
                 },
                 variant: {
                   outline:
@@ -70,7 +86,7 @@ const Swt: typeof Switch = ({ children, ...props }) => {
             static: {},
             dynamic: {
               classNameMap: {
-                selected: '!bg-gray-200/70',
+                selected: '!bg-gray-200/50',
               },
             },
           },
@@ -152,9 +168,32 @@ export const Sizes: Story = {
   },
 };
 
+const DisplaySwitches: React.FC<{
+  propCollection: [string, Partial<SwitchProps>][];
+  commonProps?: Partial<SwitchProps>;
+  className?: string;
+  children?: React.ReactNode;
+}> = ({ propCollection, commonProps = {}, className = '', children }) => {
+  return (
+    <div className={clsx(className, 'flex flex-col items-start space-y-2')}>
+      {propCollection.map(([label, props], ind) => (
+        <div className="flex flex-row-reverse items-center" key={label}>
+          {label}
+          <Swt
+            label={label}
+            {...{ ...commonProps, ...props }}
+            containerClassName="mr-4"
+          />
+        </div>
+      ))}
+      {children}
+    </div>
+  );
+};
+
 export const Variants: Story = {
   render: () => {
-    const propCollection: [string, object][] = [
+    const propCollection: [string, Partial<SwitchProps>][] = [
       ['Filled', { variant: 'filled' }],
       ['Filled Selected', { variant: 'filled', defaultSelected: true }],
       ['Outline', { variant: 'outline' }],
@@ -162,19 +201,7 @@ export const Variants: Story = {
     ];
     return (
       <Container>
-        <div className="flex flex-col items-start space-y-2">
-          {propCollection.map(([label, props], ind) => (
-            <div className="flex flex-row-reverse items-center">
-              {label}{' '}
-              <Swt
-                label={label}
-                key={label}
-                {...props}
-                containerClassName="mr-4"
-              />
-            </div>
-          ))}
-        </div>
+        <DisplaySwitches propCollection={propCollection} />
       </Container>
     );
   },
@@ -190,18 +217,19 @@ export const Statuses: Story = {
       'danger',
       'info',
       'secondary',
+      'dark',
+      'light',
     ];
     return (
       <Container>
         <div className="grid grid-cols-2 gap-4 justify-items-end">
           {statuses.map((status, ind) => (
-            <div className="flex items-center">
-              {status}
+            <div className="flex items-center" key={status}>
+              {capitalize(status)}
               <Swt
                 status={status}
                 defaultSelected
                 label={`sw-${ind + 1}`}
-                key={status}
                 containerClassName="ml-4"
               />
             </div>
@@ -214,13 +242,6 @@ export const Statuses: Story = {
 
 export const InteractionStates: Story = {
   render: () => {
-    // const propsCollection = [
-    //   { isDisabled: true },
-    //   { autoFocus: true },
-    //   { isDisabled: true, defaultSelected: true },
-    //   { isReadOnly: true },
-    //   {},
-    // ];
     const propCollection: [string, object][] = [
       ['Selected by default', { defaultSelected: true }],
       ['Disabled', { isDisabled: true }],
@@ -237,19 +258,123 @@ export const InteractionStates: Story = {
     ];
     return (
       <Container>
-        <div className="flex flex-col items-start space-y-2">
-          {propCollection.map(([label, props], ind) => (
-            <div className="flex flex-row-reverse items-center">
-              {label}{' '}
-              <Swt
-                label={label}
-                key={label}
-                {...props}
-                containerClassName="mr-4"
-              />
-            </div>
-          ))}
-        </div>
+        <DisplaySwitches propCollection={propCollection} />
+      </Container>
+    );
+  },
+};
+
+export const WithIcons: Story = {
+  render: () => {
+    return (
+      <Container>
+        <DisplaySwitches
+          commonProps={{
+            size: 'lg',
+            status: 'default',
+            // toggleButtonSizeFraction: 0.9,
+          }}
+          propCollection={[
+            // ['Normal', { defaultSelected: true, status: 'secondary' }],
+            ['With just Off Icon', { offIcon: <SunIcon /> }],
+            [
+              'With just On Icon',
+              { defaultSelected: true, onIcon: <MoonIcon /> },
+            ],
+            [
+              'With color changing Icons',
+              {
+                onIcon: <MoonIcon className="text-gray-900" />,
+                offIcon: <SunIcon className="text-warning-400/80" />,
+              },
+            ],
+            ['With character icons', { onIcon: '🌙', offIcon: '☀️' }],
+            [
+              'With letters',
+              {
+                onIcon: <p className="text-sm font-mono">ON</p>,
+                offIcon: <p className="text-sm font-mono">OFF</p>,
+                toggleButtonSizeFraction: 0.85,
+              },
+            ],
+          ]}
+        />
+      </Container>
+    );
+  },
+};
+
+export const MoreWithIcons: Story = {
+  render: () => {
+    type SwitchType = 'sound' | 'visibility' | 'shadow' | 'text';
+    const [isSwitchOnMap, setIsSwitchOnMap] = useState<
+      Record<SwitchType, boolean>
+    >({
+      sound: Math.random() > 0.5,
+      visibility: Math.random() > 0.5,
+      shadow: Math.random() > 0.5,
+      text: Math.random() > 0.5,
+    });
+
+    const [colorTheme, setColorTheme] = useState<'dark' | 'light'>('dark');
+
+    const iconsMap = useMemo<
+      Record<SwitchType, [React.JSX.Element, React.JSX.Element]>
+    >(
+      () => ({
+        sound: [<SpeakerOffIcon />, <SpeakerLoudIcon />],
+        visibility: [<EyeClosedIcon />, <EyeOpenIcon />],
+        shadow: [<ShadowNoneIcon />, <ShadowIcon />],
+        text: [<TextNoneIcon />, <TextIcon />],
+      }),
+      []
+    );
+
+    return (
+      <Container>
+        <DisplaySwitches
+          propCollection={[
+            ...Object.entries(isSwitchOnMap).map<
+              [string, Partial<SwitchProps>]
+            >(([key, value]) => [
+              `${capitalize(key)} is ${value ? 'enabled' : 'disabled'}`,
+              {
+                isSelected: value,
+                onIcon: iconsMap[key][1],
+                offIcon: iconsMap[key][0],
+                onChange: isSelected => {
+                  setIsSwitchOnMap(prev => ({
+                    ...prev,
+                    [key]: isSelected,
+                  }));
+                },
+              },
+            ]),
+          ]}
+          commonProps={{
+            // toggleButtonSizeFraction: 0.92,
+            size: 'lg',
+            status: 'default',
+          }}
+          className="w-2/3"
+        >
+          <div className="flex items-center">
+            <Swt
+              label="Hello"
+              size="lg"
+              toggleButtonSizeFraction={0.97}
+              containerClassName="mr-5"
+              status="dark"
+              isSelected={colorTheme === 'dark'}
+              onChange={isSelected =>
+                setColorTheme(isSelected ? 'dark' : 'light')
+              }
+              onIcon={<p className="text-xl">🌙</p>}
+              offIcon={<p className="text-xl">☀️</p>}
+            />
+            {`In ${colorTheme} mode`}
+          </div>
+        </DisplaySwitches>
       </Container>
     );
   },

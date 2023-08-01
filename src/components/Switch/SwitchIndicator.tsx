@@ -8,6 +8,7 @@ import {
 } from './Switch.types';
 import { resolveDynamicStyles } from '../utils/resolveDynamicStyes';
 import { resolveStaticStyles } from '../utils/resolveStaticStyles';
+import clsx from 'clsx';
 
 export interface SwitchIndicatorProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -79,17 +80,19 @@ export const SwitchIndicator = forwardRef<HTMLDivElement, SwitchIndicatorProps>(
       selected: isSelected,
     });
 
-    const className = ` ${userDefinedClassName} ${appearance?.self?.className ||
-      ''} ${disabledStyles.className} ${pressedStyles.className} ${
-      hoveredStyles.className
-    } ${focusedStyles.className} ${statusStyles.className} ${
+    const className = clsx(
+      userDefinedClassName,
+      appearance?.self?.className,
+      disabledStyles.className,
+      pressedStyles.className,
+      hoveredStyles.className,
+      focusedStyles.className,
+      statusStyles.className,
       variantStyles.className
-    }
-  `;
+    );
 
     const style = {
       ...appearance?.self?.style,
-      // ...sizeStyles.style,
       ...statusStyles.style,
       ...variantStyles.style,
       ...hoveredStyles.style,

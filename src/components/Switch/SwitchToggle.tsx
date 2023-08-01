@@ -8,6 +8,7 @@ import {
 } from './Switch.types';
 import { resolveDynamicStyles } from '../utils/resolveDynamicStyes';
 import { resolveStaticStyles } from '../utils/resolveStaticStyles';
+import clsx from 'clsx';
 
 export interface SwitchToggleProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,6 +28,9 @@ export interface SwitchToggleProps
   isFocusVisible: boolean;
   isDisabled: boolean;
   isSelected: boolean;
+
+  // Icons
+  hideIcons: boolean;
 }
 
 export const SwitchToggle: React.FC<SwitchToggleProps> = ({
@@ -45,6 +49,8 @@ export const SwitchToggle: React.FC<SwitchToggleProps> = ({
   isFocusVisible,
   isDisabled,
   isSelected,
+
+  hideIcons,
 
   ...props
 }) => {
@@ -76,13 +82,18 @@ export const SwitchToggle: React.FC<SwitchToggleProps> = ({
     selected: isSelected,
   });
 
-  const className = ` ${userDefinedClassName} ${appearance?.self?.className ||
-    ''} ${disabledStyles.className} ${pressedStyles.className} ${
-    hoveredStyles.className
-  } ${focusedStyles.className} ${sizeStyles.className} ${
-    statusStyles.className
-  } ${variantStyles.className} ${selectedStyles.className}
-  `;
+  const className = clsx(
+    userDefinedClassName,
+    appearance?.self?.className,
+    disabledStyles.className,
+    pressedStyles.className,
+    hoveredStyles.className,
+    focusedStyles.className,
+    sizeStyles.className,
+    statusStyles.className,
+    variantStyles.className,
+    { [selectedStyles.className]: hideIcons }
+  );
 
   const style = {
     ...appearance?.self?.style,

@@ -17,6 +17,7 @@ import { useInteractionState } from '../../hooks/useInteractionState';
 import { SwitchIndicator } from './SwitchIndicator';
 import { SwitchToggle } from './SwitchToggle';
 import { resolveStaticStyles } from '../utils/resolveStaticStyles';
+import clsx from 'clsx';
 
 export interface SwitchProps extends AriaSwitchProps {
   // Styles
@@ -35,6 +36,13 @@ export interface SwitchProps extends AriaSwitchProps {
   onHover?: (e: HoverEvent) => void;
   onHoverStart?: (e: HoverEvent) => void;
   onHoverEnd?: (e: HoverEvent) => void;
+
+  // Icons
+  onIcon?: React.ReactNode;
+  offIcon?: React.ReactNode;
+  hideIcons?: boolean;
+  iconContainerClassName?: string;
+  iconContainerStyle?: React.CSSProperties;
 
   // Others
   label: string;
@@ -64,6 +72,12 @@ export const Switch: React.FC<SwitchProps> = ({
   toggleButtonSizeFraction: tbs = 0.7,
   toggleButtonWidthFraction: tbw = 1,
 
+  onIcon,
+  offIcon,
+  hideIcons = false,
+  iconContainerClassName,
+  iconContainerStyle = {},
+
   ...props
 }) => {
   const toggleState = useToggleState(props);
@@ -90,9 +104,12 @@ export const Switch: React.FC<SwitchProps> = ({
     hoverProps,
     isHovered,
     isPressed,
+    dataAttributes,
   } = useInteractionState({
     onHoverStart,
     onHoverEnd,
+    isDisabled: !!props.isDisabled,
+    isSelected: toggleState.isSelected,
   });
 
   useLayoutEffect(() => {
@@ -116,18 +133,18 @@ export const Switch: React.FC<SwitchProps> = ({
       {...labelProps}
       {...hoverProps}
       aria-labelledby={label}
-      className={`${appearance?.container?.className || ''} ${appearance?.self
-        ?.className || ''} ${containerClassName || ''} ${sizeStyles.className}`}
+      className={clsx(
+        appearance?.container?.className,
+        appearance?.self?.className,
+        containerClassName,
+        sizeStyles.className
+      )}
       style={{
         ...sizeStyles.style,
         ...appearance?.container?.style,
         ...containerStyle,
       }}
-      data-disabled={props.isDisabled ? true : undefined}
-      data-selected={toggleState.isSelected ? true : undefined}
-      data-pressed={isPressed ? true : undefined}
-      data-hovered={isHovered ? true : undefined}
-      data-focus-visible={isFocusVisible ? true : undefined}
+      {...dataAttributes}
     >
       <VisuallyHidden>
         <input {...inputProps} {...fieldProps} {...focusProps} ref={ref} />
@@ -149,16 +166,14 @@ export const Switch: React.FC<SwitchProps> = ({
         }}
         ref={indicatorRef}
       >
-        {/* <div ref={indicatorRef}></div> */}
         <SwitchToggle
           style={{
-            // marginLeft: toggleState.isSelected ? 'auto' : '0',
             width: toggleWidth,
             height: toggleHeight,
             left: toggleState.isSelected
-              ? // ? indWidth - (indHeight * (1 + tbs)) / 2
-                indWidth - (toggleWidth + (indHeight - toggleHeight) / 2)
+              ? indWidth - (toggleWidth + (indHeight - toggleHeight) / 2)
               : ((1 - tbs) / 2) * indHeight,
+            overflow: 'clip',
           }}
           {...{
             isPressed,
@@ -169,7 +184,18 @@ export const Switch: React.FC<SwitchProps> = ({
           }}
           {...{ size, status, variant }}
           appearance={appearance?.childrenAppearances?.toggle}
-        />
+          hideIcons={hideIcons || !onIcon}
+        >
+          <div
+            className={clsx(
+              'relative w-full h-full flex items-center justify-center',
+              iconContainerClassName
+            )}
+            style={{ ...iconContainerStyle }}
+          >
+            {hideIcons ? null : toggleState.isSelected ? onIcon : offIcon}
+          </div>
+        </SwitchToggle>
       </SwitchIndicator>
 
       {showLabel && children}

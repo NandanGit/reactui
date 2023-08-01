@@ -76,8 +76,8 @@ const Btn: typeof Button = ({className,...props}) => {
 export const Sizes: Story = {
   render: () => (
   <Container >
-    <Btn size="lg" variant='outline'>Large Button</Btn>
-    <Btn size="md" status="warning">Medium</Btn>
+    <Btn size="lg">Large Button</Btn>
+    <Btn size="md">Medium</Btn>
     <Btn size="sm">Small</Btn>
   </Container>
   ),
